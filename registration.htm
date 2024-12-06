@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vakademie - Inschrijfformulier</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="logo">Vakademie</div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="courses.html">Cursussen</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="register">
+            <h2>Aanmelden</h2>
+            <form action="#" method="post">
+                <label for="title">Aanhef:</label>
+                <input type="radio" name="title" value="Dhr" required> Dhr.
+                <input type="radio" name="title" value="Mevr"> Mevr.<br><br>
+
+                <label for="firstname">Voornaam:</label>
+                <input type="text" name="firstname" required><br>
+
+                <label for="middlename">Tussenvoegsel:</label>
+                <input type="text" name="middlename"><br>
+
+                <label for="lastname">Achternaam:</label>
+                <input type="text" name="lastname" required><br>
+
+                <label for="email">E-mail:</label>
+                <input type="email" name="email" required><br>
+
+                <label for="phone">Telefoon:</label>
+                <input type="tel" name="phone" required><br>
+
+                <label for="address">Adres en Huisnummer:</label>
+                <input type="text" name="address" required><br>
+
+                <label for="zipcode">Postcode:</label>
+                <input type="text" name="zipcode" required><br>
+
+                <label for="city">Woonplaats:</label>
+                <input type="text" name="city" required><br>
+
+                <input type="checkbox" name="terms" required> Ik ga akkoord met de voorwaarden<br><br>
+                <input type="submit" value="Verstuur">
+            </form>
+        </section>
+    </main>
+</body>
+</html>

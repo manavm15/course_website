@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UI/UX Design</title>
+    <style>
+        body {
+            background: linear-gradient(to right, #b92b27, #1565c0);
+            color: white;
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .content {
+            margin-top: 50px;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .btn {
+            background-color: #ffcc00;
+            color: black;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #e5b800;
+        }
+
+        .purchase-btn {
+            display: inline-block;
+            background: #ffcc00;
+            color: black;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            margin-top: 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .purchase-btn:hover {
+            background: #e6b800;
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="content">
+        <h1>UI/UX Design</h1>
+        <p><strong>Instructor:</strong> Alex Garcia</p>
+        <p><strong>Duration:</strong> 3 Months</p>
+        <p><strong>Price:</strong> €700</p>
+        <p><strong>Location:</strong> On-site</p>
+        <p><strong>Description:</strong> Learn how to design user-friendly interfaces and enhance user experience with advanced design techniques and tools.</p>
+        
+        <!-- Purchase button that redirects to the purchase page -->
+        <a href="purchase.html?course=UI/UX%20Design">
+            <button class="purchase-btn">Purchase This Course</button>
+        </a>
+
+        <!-- Back to Courses button -->
+        <a href="course-registration.html"><button class="btn">Back to Courses</button></a>
+    </div>
+
+</body>
+</html>

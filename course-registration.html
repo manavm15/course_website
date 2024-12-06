@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Registration</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: flex-end;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 10px 20px;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .navbar a:hover {
+            color: #ffcc00;
+        }
+
+        h1 {
+            margin-bottom: 40px;
+        }
+
+        .course-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .course-card {
+            width: 250px;
+            margin: 20px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s, background 0.3s;
+        }
+
+        .course-card:hover {
+            transform: scale(1.1);
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .course-icon {
+            font-size: 50px;
+            margin-bottom: 15px;
+        }
+
+        .course-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #ffcc00;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="navbar">
+        <a href="index.html">Home</a>
+        <a href="course-registration.html">Courses</a>
+        <a href="contact.html">Contact</a>
+    </div>
+
+    <h1>Explore Our Courses</h1>
+    <div class="course-container">
+        <div class="course-card" onclick="goToCourse('python-course.html')">
+            <div class="course-icon">🐍</div>
+            <div class="course-title">Python Programming</div>
+        </div>
+        <div class="course-card" onclick="goToCourse('data-science-course.html')">
+            <div class="course-icon">📊</div>
+            <div class="course-title">Data Science</div>
+        </div>
+        <div class="course-card" onclick="goToCourse('fullstack-course.html')">
+            <div class="course-icon">💻</div>
+            <div class="course-title">Full Stack Development</div>
+        </div>
+        <div class="course-card" onclick="goToCourse('ml-course.html')">
+            <div class="course-icon">🤖</div>
+            <div class="course-title">Machine Learning</div>
+        </div>
+        <div class="course-card" onclick="goToCourse('uiux-course.html')">
+            <div class="course-icon">🎨</div>
+            <div class="course-title">UI/UX Design</div>
+        </div>
+    </div>
+
+    <script>
+        function goToCourse(coursePage) {
+            window.location.href = coursePage;
+        }
+    </script>
+
+</body>
+</html>

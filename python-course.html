@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python Programming</title>
+    <style>
+        body {
+            background: linear-gradient(to right, #141e30, #243b55);
+            color: white;
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .content {
+            margin-top: 50px;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .btn {
+            background-color: #ffcc00;
+            color: black;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #e5b800;
+        }
+
+        .purchase-btn {
+            display: inline-block;
+            background: #ffcc00;
+            color: black;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            margin-top: 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .purchase-btn:hover {
+            background: #e6b800;
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="content">
+        <h1>Python Programming</h1>
+        <p><strong>Instructor:</strong> John Smith</p>
+        <p><strong>Duration:</strong> 4 Months</p>
+        <p><strong>Price:</strong> €800</p>
+        <p><strong>Location:</strong> Online</p>
+        <p><strong>Description:</strong> Learn the fundamentals of Python programming, including data types, algorithms, and web development basics.</p>
+        
+        <!-- Purchase button that redirects to the purchase page -->
+        <a href="purchase.html?course=Python%20Programming">
+            <button class="purchase-btn">Purchase This Course</button>
+        </a>
+
+        <!-- Back to Courses button -->
+        <a href="course-registration.html"><button class="btn">Back to Courses</button></a>
+    </div>
+
+</body>
+</html>

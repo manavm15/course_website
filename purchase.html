@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Purchase Course</title>
+
+    <!-- Include jQuery (necessary for select2) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <!-- Include the CSS for select2 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css">
+
+    <!-- Include CSS for international phone input -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.min.css">
+
+    <style>
+        body {
+            background: linear-gradient(to right, #1e3c72, #2a5298); /* Lighter gradient */
+            font-family: 'Arial', sans-serif;
+            padding: 40px;
+            color: white;
+            text-align: center;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            margin: 0 20px;
+            padding: 10px 20px;
+            cursor: pointer;
+            background-color: #333;
+            color: white;
+            border-radius: 5px;
+            font-size: 1.2em;
+            transition: background-color 0.3s ease;
+        }
+
+        .tab:hover {
+            background-color: #555;
+        }
+
+        .tab.active {
+            background-color: #ffcc00;
+            color: #333;
+        }
+
+        .section {
+            display: none;
+        }
+
+        .active-section {
+            display: block;
+        }
+
+        form {
+            background: rgba(255, 255, 255, 0.9); /* Lighter background for form */
+            padding: 30px;
+            border-radius: 10px;
+            width: 50%;
+            margin: 0 auto;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            color: #333; /* Darker text for better readability */
+        }
+
+        label, input, select {
+            display: block;
+            margin: 10px 0;
+            font-size: 1.2em;
+            color: #333; /* Dark text for better contrast */
+        }
+
+        input, select {
+            width: 90%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc; /* Light border for inputs */
+            background-color: #f9f9f9; /* Light background for inputs */
+            color: #333; /* Dark text inside input */
+        }
+
+        input:focus, select:focus {
+            border-color: #2a5298; /* Focused input color */
+            outline: none;
+        }
+
+        .btn-submit {
+            background-color: #ffcc00;
+            padding: 10px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.2em;
+            transition: all 0.3s ease;
+            color: #333; /* Dark text for button */
+        }
+
+        .btn-submit:hover {
+            background-color: #e6b800;
+            transform: scale(1.1);
+        }
+
+        .invalid {
+            color: red;
+        }
+
+        .valid {
+            color: green;
+        }
+
+        #citySelect {
+            width: 90%;
+        }
+
+        /* Style the select2 dropdown for better visibility */
+        .select2-container .select2-selection--single {
+            background-color: #f9f9f9;
+            color: #333;
+            border: 1px solid #ccc;
+        }
+
+        .select2-results__option {
+            color: black;
+            background-color: white;
+        }
+
+        .select2-results__option[aria-selected=true] {
+            background-color: #ffcc00;
+            color: black;
+        }
+
+        .select2-results__option[aria-selected=true]:hover {
+            background-color: #ff9900;
+            color: black;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Tabs -->
+    <div class="tabs">
+        <div class="tab" onclick="window.location.href='index.html'">Home</div>
+        <div class="tab" onclick="window.location.href='course-registration.html'">Courses</div>
+        <div class="tab active" onclick="window.location.href='contact.html'">Contact</div>
+    </div>
+
+    <!-- Contact Section with Registration Form (this part stays on contact.html) -->
+    <div id="contact" class="section active-section">
+        <h1>Course Registration</h1>
+        <p id="selectedCourse"></p>
+
+        <form id="purchaseForm">
+            <label for="salutation">Salutation:</label>
+            <select id="salutation" required>
+                <option value="Mr.">Mr.</option>
+                <option value="Ms.">Ms.</option>
+                <option value="Mrs.">Mrs.</option>
+                <option value="Dr.">Dr.</option>
+            </select>
+
+            <label for="firstName">Voornaam:</label>
+            <input type="text" id="firstName" placeholder="Vul uw voornaam in" required>
+
+            <label for="lastName">Achternaam:</label>
+            <input type="text" id="lastName" placeholder="Vul uw achternaam in" required>
+
+            <!-- Phone number above email -->
+            <label for="phone">Telefoonnummer:</label>
+            <input type="tel" id="phone" placeholder="Vul uw telefoonnummer in" required>
+            <div id="phoneStatus"></div>
+
+            <label for="email">E-mail:</label>
+            <input type="email" id="email" placeholder="Vul uw e-mail in" required>
+            <span id="emailStatus"></span>
+
+            <!-- Address fields with house number first -->
+            <label for="houseNumber">Huisnummer:</label>
+            <input type="text" id="houseNumber" placeholder="Vul het huisnummer in" required>
+
+            <label for="address">Straatnaam:</label>
+            <input type="text" id="address" placeholder="Vul de straatnaam in" required>
+
+            <label for="city">Stad:</label>
+            <select id="citySelect" required>
+                <option value="">Selecteer een stad</option>
+            </select>
+
+            <label for="postalCode">Postcode:</label>
+            <input type="text" id="postalCode" placeholder="Vul de postcode in" required>
+
+            <button type="submit" class="btn-submit">Verzenden</button>
+        </form>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/libphonenumber-js/1.9.16/libphonenumber-js.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
+
+    <script>
+        // Initialize phone number input with intl-tel-input library
+        const phoneInput = document.querySelector("#phone");
+        const iti = window.intlTelInput(phoneInput, {
+            initialCountry: "NL", // Default to Netherlands
+            utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js" // Required for formatting and validation
+        });
+
+        // Get the selected course from the URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const courseName = urlParams.get('course');
+        document.getElementById('selectedCourse').innerText = "You are registering for: " + courseName;
+
+        // Full List of Dutch Cities
+        const cities = [
+            "Amsterdam", "Rotterdam", "Den Haag", "Utrecht", "Eindhoven", "Groningen", "Almere", 
+            "Breda", "Nijmegen", "Enschede", "Haarlem", "Arnhem", "Zaanstad", "Amersfoort", "Apeldoorn"
+        ];
+
+        // Populate the city select dropdown dynamically
+        const citySelect = document.getElementById("citySelect");
+        cities.forEach(city => {
+            const option = document.createElement("option");
+            option.value = city;
+            option.textContent = city;
+            citySelect.appendChild(option);
+        });
+
+        // Email validation - live check
+        const emailInput = document.getElementById("email");
+        const emailStatus = document.getElementById("emailStatus");
+
+        emailInput.addEventListener("input", function() {
+            const email = emailInput.value;
+            if (/\S+@\S+\.\S+/.test(email)) {
+                emailStatus.textContent = "E-mail is valid";
+                emailStatus.classList.remove("invalid");
+                emailStatus.classList.add("valid");
+            } else {
+                emailStatus.textContent = "E-mail is invalid";
+                emailStatus.classList.remove("valid");
+                emailStatus.classList.add("invalid");
+            }
+        });
+
+        // Phone number validation - live check
+        phoneInput.addEventListener("input", function() {
+            const phoneNumber = phoneInput.value;
+            const isValid = iti.isValidNumber();
+            const phoneStatus = document.getElementById("phoneStatus");
+            if (isValid) {
+                phoneStatus.textContent = "Phone number is valid";
+                phoneStatus.classList.remove("invalid");
+                phoneStatus.classList.add("valid");
+            } else {
+                phoneStatus.textContent = "Phone number is invalid";
+                phoneStatus.classList.remove("valid");
+                phoneStatus.classList.add("invalid");
+            }
+        });
+
+        // Handle form submission (for demo purposes)
+        document.getElementById("purchaseForm").addEventListener("submit", function(e) {
+            e.preventDefault();
+            alert("Form submitted!");
+        });
+    </script>
+</body>
+</html>

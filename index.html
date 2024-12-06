@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Registration Portal</title>
+    <style>
+        /* General Body Styling */
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #74ebd5, #ACB6E5);
+            color: white;
+            text-align: center;
+            padding: 0;
+            min-height: 100vh;
+            background-size: cover;
+        }
+
+        /* Navigation Bar Styling */
+        .navbar {
+            display: flex;
+            justify-content: flex-end;
+            background-color: rgba(0, 0, 0, 0.6);
+            padding: 10px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 18px;
+            font-weight: bold;
+            position: relative;
+        }
+
+        .navbar a:hover {
+            color: #ffcc00;
+        }
+
+        .navbar a::after {
+            content: '';
+            display: block;
+            width: 0;
+            height: 3px;
+            background: #ffcc00;
+            transition: width 0.4s;
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+        }
+
+        .navbar a:hover::after {
+            width: 100%;
+        }
+
+        /* Content Section Styling */
+        .content {
+            margin-top: 100px;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        p {
+            font-size: 1.5rem;
+            margin-bottom: 40px;
+        }
+
+        /* Button Styling */
+        .btn {
+            background-color: #ffcc00;
+            color: black;
+            padding: 15px 30px;
+            font-size: 18px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+            text-transform: uppercase;
+        }
+
+        .btn:hover {
+            background-color: #e5b800;
+            transform: scale(1.1);
+        }
+
+        /* Image Styling */
+        .default-image {
+            width: 60%;
+            border-radius: 15px;
+            margin-top: 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <div class="navbar">
+        <a href="index.html">Home</a>
+        <a href="course-registration.html">Courses</a>
+        <a href="purchase.html">Contact</a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content">
+        <h1>Welcome to Our Course Portal</h1>
+        <p>Discover and register for the best courses today!</p>
+        <a href="course-registration.html">
+            <button class="btn">Go to Course Registration</button>
+        </a>
+        <br><br>
+        <img src="https://via.placeholder.com/800x400" alt="Default Course Image" class="default-image">
+    </div>
+
+</body>
+</html>
