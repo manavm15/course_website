@@ -170,6 +170,62 @@
         .footer a:hover {
             text-decoration: underline;
         }
+
+        /* Mobile Styles */
+        @media (max-width: 768px) {
+            .navbar .nav-items {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .search-box {
+                width: 100%;
+                margin-top: 10px;
+            }
+
+            .image-section img {
+                width: 100%;
+                max-width: none;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            p {
+                font-size: 1.2rem;
+            }
+
+            .footer {
+                font-size: 14px;
+            }
+
+            .search-section {
+                width: 80%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .footer a {
+                font-size: 14px;
+            }
+
+            .navbar .nav-items {
+                gap: 5px;
+            }
+
+            .search-box input {
+                font-size: 14px;
+            }
+
+            .search-box button {
+                font-size: 16px;
+            }
+        }
     </style>
 </head>
 <body>
