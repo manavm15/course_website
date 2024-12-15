@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Course Registration Portal</title>
+    <title>Interactive Course Portal</title>
     <style>
-        /* General Body Styling */
+        /* General Styling */
         body {
             margin: 0;
             font-family: 'Arial', sans-serif;
@@ -14,50 +14,47 @@
             text-align: center;
             padding: 0;
             min-height: 100vh;
-            background-size: cover;
         }
 
-        /* Navigation Bar Styling */
+        /* Navigation Bar */
         .navbar {
             display: flex;
-            justify-content: flex-end;
-            background-color: rgba(0, 0, 0, 0.6);
+            justify-content: space-between;
+            align-items: center;
+            background-color: rgba(0, 0, 0, 0.8);
             padding: 10px 20px;
             position: sticky;
             top: 0;
             z-index: 1000;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .navbar .nav-items {
+            display: flex;
+            gap: 20px;
         }
 
         .navbar a {
             color: white;
             text-decoration: none;
-            margin: 0 15px;
             font-size: 18px;
             font-weight: bold;
-            position: relative;
         }
 
-        .navbar a:hover {
-            color: #ffcc00;
+        /* Placeholder for Images */
+        .image-section {
+            margin: 50px auto;
         }
 
-        .navbar a::after {
-            content: '';
-            display: block;
-            width: 0;
-            height: 3px;
-            background: #ffcc00;
-            transition: width 0.4s;
-            position: absolute;
-            bottom: -5px;
-            left: 0;
+        .image-section img {
+            width: 90%;
+            max-width: 1200px;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
         }
 
-        .navbar a:hover::after {
-            width: 100%;
-        }
-
-        /* Content Section Styling */
+        /* Main Content Styling */
         .content {
             margin-top: 100px;
         }
@@ -66,6 +63,7 @@
             font-size: 3rem;
             margin-bottom: 20px;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            transition: font-size 0.3s ease-in-out;
         }
 
         p {
@@ -73,52 +71,227 @@
             margin-bottom: 40px;
         }
 
-        /* Button Styling */
-        .btn {
-            background-color: #ffcc00;
-            color: black;
-            padding: 15px 30px;
-            font-size: 18px;
+        /* Search Section */
+        .search-section {
+            margin: 50px auto;
+            width: 50%;
+            position: relative;
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            background-color: white;
+            border-radius: 30px;
+            padding: 10px 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .search-box input {
+            flex: 1;
             border: none;
-            border-radius: 8px;
+            outline: none;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 30px;
+        }
+
+        .search-box button {
+            background-color: #ffcc00;
+            border: none;
+            border-radius: 50%;
+            padding: 10px;
             cursor: pointer;
-            transition: all 0.3s ease-in-out;
-            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 10px;
+            font-size: 18px;
+            color: black;
         }
 
-        .btn:hover {
+        .search-box button:hover {
             background-color: #e5b800;
-            transform: scale(1.1);
         }
 
-        /* Image Styling */
-        .default-image {
-            width: 60%;
-            border-radius: 15px;
-            margin-top: 30px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        .suggestions {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background-color: white;
+            color: black;
+            border-radius: 0 0 30px 30px; /* Matches the search box */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+
+        .suggestion-item {
+            padding: 10px;
+            text-align: left;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        .suggestion-item:hover {
+            background-color: #f0f0f0;
+        }
+
+        /* Sticky Search Bar Transition */
+        .navbar .search-box {
+            display: none;
+        }
+
+        .navbar.scrolled .search-box {
+            display: flex;
+        }
+
+        .search-section.hidden {
+            display: none;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 20px;
+            margin-top: 50px;
+            position: relative;
+        }
+
+        .footer a {
+            color: #ffcc00;
+            text-decoration: none;
+            margin: 0 10px;
+            font-size: 16px;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
-
     <!-- Navigation Bar -->
     <div class="navbar">
-        <a href="index.html">Home</a>
-        <a href="course-registration.html">Courses</a>
-        <a href="purchase.html">Contact</a>
+        <div class="logo">Course Portal</div>
+        <div class="nav-items">
+            <a href="index.html">Home</a>
+            <a href="course-registration.html">Courses</a>
+            <a href="purchase.html">Contact</a>
+        </div>
+        <div class="search-box">
+            <input type="text" placeholder="Search courses..." id="headerSearchInput">
+            <button>🔍</button>
+        </div>
     </div>
 
     <!-- Main Content -->
     <div class="content">
-        <h1>Welcome to Our Course Portal</h1>
+        <h1 id="mainHeading">Welcome to Our Course Portal</h1>
         <p>Discover and register for the best courses today!</p>
-        <a href="course-registration.html">
-            <button class="btn">Go to Course Registration</button>
-        </a>
-        <br><br>
-        <img src="https://via.placeholder.com/800x400" alt="Default Course Image" class="default-image">
+
+        <!-- Search Section -->
+        <div class="search-section" id="mainSearchSection">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Search courses by name or related content..." oninput="showSuggestions()">
+                <button onclick="performSearch()">🔍</button>
+            </div>
+            <div class="suggestions" id="suggestionsBox" style="display: none;"></div>
+        </div>
+
+        <!-- Placeholder for Images -->
+        <div class="image-section">
+            <img src="placeholder.jpg" alt="Placeholder Image">
+        </div>
     </div>
 
+    <!-- Footer Section -->
+    <div class="footer">
+        <a href="#">Cookies</a>
+        <a href="#">General Conditions</a>
+        <a href="#">Contact Form</a>
+    </div>
+
+    <!-- Script Added Here -->
+    <script>
+        const navbar = document.querySelector(".navbar");
+        const mainHeading = document.getElementById("mainHeading");
+        const mainSearchSection = document.getElementById("mainSearchSection");
+
+        // Shrink header elements on scroll
+        window.addEventListener("scroll", () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add("scrolled");
+                mainHeading.style.fontSize = "2rem";
+                mainSearchSection.classList.add("hidden");
+            } else {
+                navbar.classList.remove("scrolled");
+                mainHeading.style.fontSize = "3rem";
+                mainSearchSection.classList.remove("hidden");
+            }
+        });
+
+        // Sample course data
+        const courses = [
+            { name: "Machine Learning", content: "AI, Deep Learning, Neural Networks", link: "ml-course.html" },
+            { name: "Data Science", content: "Big Data, Analytics, Visualization", link: "data-science-course.html" },
+            { name: "Web Development", content: "HTML, CSS, JavaScript", link: "full-stack.html" },
+            { name: "Edelsmeden - Module C Basis", content: "Edelsmeden, Module C Basis, Cursus, Sieraden maken, Basisvaardigheden, Handwerk, Ringen maken, Hangers maken, Zagen, Vijlen, Schuren, Polijsten, Solderen, Gereedschappen, Alpaca, Zilver, Cursusprijs, Korting voor studenten, Lesmateriaal, Begeleiding en examen, Certificaat, Praktische en theoretische opdrachten, Vooropleiding, Nederlandse taal, Startdatum, Duur, Kostenoverzicht, Startmogelijkheid", link: "edelsmeden.html" },
+            { name: "Photoshop Module C Basis", content: "Photoshop, Cursus, Creatieve ontwerpen, Multimedia-producten, Grafisch ontwerp, Digitale creatie, Certificaat, Niveau 3 module – C, Praktische opdrachten, Standaard cursusprijs, Korting voor studenten, Lesmateriaal, Begeleiding en examen, Vooropleiding, Leeftijd, Taalvereiste, Startmogelijkheid, Nederlandse taal, Folder, Flyer, Logo, Studenten korting, Mbo-hbo-wo-diploma", link: "photoshop.html" }
+        ];
+
+        // Show suggestions based on input
+        function showSuggestions() {
+            const input = document.getElementById("searchInput").value.toLowerCase();
+            const suggestionsBox = document.getElementById("suggestionsBox");
+            suggestionsBox.innerHTML = ""; // Clear previous suggestions
+
+            if (input) {
+                const filteredCourses = courses.filter(course =>
+                    course.name.toLowerCase().includes(input) || course.content.toLowerCase().includes(input)
+                );
+
+                if (filteredCourses.length > 0) {
+                    filteredCourses.forEach(course => {
+                        const suggestionItem = document.createElement("div");
+                        suggestionItem.className = "suggestion-item";
+                        suggestionItem.textContent = course.name;
+                        suggestionItem.onclick = () => navigateTo(course.link);
+                        suggestionsBox.appendChild(suggestionItem);
+                    });
+                    suggestionsBox.style.display = "block";
+                } else {
+                    suggestionsBox.style.display = "none";
+                }
+            } else {
+                suggestionsBox.style.display = "none";
+            }
+        }
+
+        // Navigate to course-specific page
+        function navigateTo(link) {
+            window.location.href = link;
+        }
+
+        // Perform search on button click
+        function performSearch() {
+            const input = document.getElementById("searchInput").value.toLowerCase();
+            if (input) {
+                const filteredCourses = courses.filter(course =>
+                    course.name.toLowerCase().includes(input) || course.content.toLowerCase().includes(input)
+                );
+
+                if (filteredCourses.length > 0) {
+                    navigateTo(filteredCourses[0].link); // Navigate to the first match
+                } else {
+                    alert("No matching courses found!");
+                }
+            } else {
+                alert("Please enter a search term!");
+            }
+        }
+    </script>
 </body>
 </html>

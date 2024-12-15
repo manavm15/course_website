@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photoshop - Module C Basis</title>
+    <style>
+        /* General Styles */
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #74ebd5, #ACB6E5);
+            color: white;
+            text-align: center;
+            min-height: 100vh;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: #039BE5;
+            padding: 20px 0;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        header h1 {
+            font-size: 2em;
+            margin: 0;
+        }
+
+       /* Update Navbar Styles */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 10px 20px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+ /* Knoppen */
+ .btn {
+            display: inline-block;
+            background-color: #4FC3F7;
+            color: black;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1em;
+            text-decoration: none;
+            margin: 20px 10px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .btn:hover {
+            background-color: #039BE5;
+            transform: scale(1.1);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: #4FC3F7;
+            border: 2px solid #4FC3F7;
+        }
+
+        .btn-secondary:hover {
+            background-color: #4FC3F7;
+            color: black;
+        }
+
+/* Style Navbar Links */
+.navbar nav {
+    display: flex;
+    gap: 30px; /* Increase spacing between links */
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.navbar a:hover {
+    color: #ffcc00;
+    transform: scale(1.1); /* Add hover animation */
+}
+
+/* Position Search Box in Top-Right */
+.search-section {
+    margin: 0;
+    width: 35%; /* Adjust as needed for space */
+    position: relative;
+}
+
+.search-box {
+    display: flex;
+    align-items: center;
+    background-color: white;
+    border-radius: 30px;
+    padding: 5px 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.search-box input {
+    flex: 1;
+    border: none;
+    outline: none;
+    padding: 5px;
+    font-size: 16px;
+}
+
+.search-box button {
+    background-color: #ffcc00;
+    border: none;
+    border-radius: 50%;
+    padding: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    color: black;
+    margin-left: 10px;
+}
+
+.search-box button:hover {
+    background-color: #e5b800;
+}
+
+/* Adjust Suggestions Box */
+.suggestions {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: white;
+    color: black;
+    border-radius: 30px 30px 30px 30px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.suggestion-item {
+    padding: 10px;
+    text-align: left;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.suggestion-item:hover {
+    background-color: #f0f0f0;
+    border-radius: 30px 30px 30px 30px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+
+        /* Content Section */
+        .content {
+            margin: 50px auto;
+            padding: 20px;
+            max-width: 900px;
+            background-color: rgba(0, 0, 0, 0.6);
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+            text-align: left;
+        }
+
+        h2 {
+            font-size: 1.8em;
+            color: #4FC3F7;
+        }
+
+        p {
+            font-size: 1.2em;
+            line-height: 1.6;
+        }
+
+        .highlight {
+            font-weight: bold;
+            color: #4FC3F7;
+        }
+
+        /* Table Styles */
+        .cost-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            overflow: hidden;
+            border-radius: 12px;
+        }
+
+        .cost-table th, .cost-table td {
+            padding: 15px;
+            text-align: left;
+        }
+
+        .cost-table thead {
+            background-color: #039BE5;
+            color: white;
+        }
+
+        .cost-table tbody tr:nth-child(even) {
+            background-color: rgba(79, 195, 247, 0.3);
+        }
+
+        .cost-table tbody tr:nth-child(odd) {
+            background-color: rgba(79, 195, 247, 0.15);
+        }
+
+        .cost-table tbody tr:hover {
+            background-color: rgba(79, 195, 247, 0.5);
+        }
+
+        /*Certificaat  Table Styles */
+        .certifcaat-tabel {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            overflow: hidden;
+            border-radius: 12px;
+        }
+
+        .certifcaat-tabel th, .certifcaat-tabel td {
+            padding: 15px;
+            text-align: left;
+        }
+
+        .certifcaat-tabel thead {
+            background-color: #039BE5;
+            color: white;
+        }
+
+        .certifcaat-tabel tbody tr:nth-child(even) {
+            background-color: rgba(79, 195, 247, 0.3);
+        }
+
+        .certifcaat-tabel tbody tr:nth-child(odd) {
+            background-color: rgba(79, 195, 247, 0.15);
+        }
+
+        .certifcaat-tabel tbody tr:hover {
+            background-color: rgba(79, 195, 247, 0.5);
+        }
+        /*Aanmelden-table Styles */
+        .Aanmelden-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            overflow: hidden;
+            border-radius: 12px;
+        }
+
+        .Aanmelden-table th, .Aanmelden-table td {
+            padding: 15px;
+            text-align: left;
+        }
+
+        .Aanmelden-table thead {
+            background-color: #039BE5;
+            color: white;
+        }
+
+        .Aanmelden-table tbody tr:nth-child(even) {
+            background-color: rgba(79, 195, 247, 0.3);
+        }
+
+        .Aanmelden-table tbody tr:nth-child(odd) {
+            background-color: rgba(79, 195, 247, 0.15);
+        }
+
+        .Aanmelden-table tbody tr:hover {
+            background-color: rgba(79, 195, 247, 0.5);
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            background-color: #4FC3F7;
+            color: black;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: transform 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #039BE5;
+            transform: scale(1.1);
+        }
+
+        /* Footer Styles */
+        .footer {
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 20px;
+        }
+
+        .footer a {
+            color: #ffcc00;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <nav>
+                <a href="index.html">Home</a>
+                <a href="course-registration.html">Courses</a>
+                <a href="purchase.html">Contact</a>
+            </nav>
+                     <!-- Search Section -->
+         <div class="search-section" id="mainSearchSection">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Search courses by name or related content..." oninput="showSuggestions()">
+                <button onclick="performSearch()">🔍</button>
+            </div>
+            <div class="suggestions" id="suggestionsBox" style="display: none;"></div>
+        </div>
+        </div>
+        <br>
+        <h1>Photoshop Module C Basis</h1>
+    </header>
+    <main>
+        <div class="content">
+            <h2>Module Informatie</h2>
+            <p><span class="highlight">Dag:</span> Woensdag</p>
+            <p><span class="highlight">Tijd:</span> 13:30 - 14:30</p>
+            <p><span class="highlight">Start:</span> Instromen kan iedere woensdag</p>
+            <p><span class="highlight">Duur:</span> 3 maanden (12 lessen)</p>
+            <p><span class="highlight">Kosten:</span> €230</p>
+
+            <h3>Kostenoverzicht</h3>
+            <table class="cost-table">
+                <thead>
+                    <tr>
+                        <th>Kosten</th>
+                        <th>Inclusief</th>
+                        <th>Voorwaarden</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Standaard cursusprijs</td>
+                        <td>€ 230 - Lesmateriaal*, begeleiding en examen</td>
+                        <td>Geen specifieke voorwaarden</td>
+                    </tr>
+                    <tr>
+                        <td>Korting voor studenten (18-30 jaar)</td>
+                        <td>€ 115 - Lesmateriaal*, begeleiding en examen</td>
+                        <td>- Nederlandse nationaliteit<br>- Leeftijd 18-30 jaar<br>- Geen eerder behaald mbo-, hbo- of wo-diploma in Nederland</td>
+                    </tr>
+                </tbody>
+            </table>
+            <br>
+            <h2>Introductie</h2>
+            <p>
+                Tijdens deze cursus ook als hobby te volgen, maak je uitgebreid kennis met de mogelijkheden van Photoshop. Je leert onder andere hoe je documenten kunt openen en opslaan in verschillende bestandsformaten, evenals het toepassen van diverse verftechnieken. Tot slot wordt je creativiteit uitgedaagd aan de hand van verschillende opdrachten onder anderen het maken van een folder, flyer en logo.
+            </p>
+            <br>
+
+            <h2>Wat kun je na de cursus?</h2>
+            <p>Na afronding van de cursus ben je in staat om zelfstandig creatieve ontwerpen te maken in Photoshop. Met de opgedane vaardigheden kun je als beginnend medewerker assisteren bij het ontwerpen van eenvoudige multimedia-producten. Een sterke basis voor verdere groei in grafisch ontwerp en digitale creatie.
+            </p>
+            <br>
+            <h2>Certificaat</h2>
+            <table class="certifcaat-tabel">
+                <thead>
+                    <tr>
+                        <th>Detail</th> <!-- First column header as 'Detail' -->
+                        <th></th> <!-- Second column header as 'Value' -->
+                    </tr>
+                </thead>
+                    <tr>
+                        <th>Certificaat</th>
+                        <td>Photoshop niveau 3 module – C</td>
+                    </tr>
+                    <tr>
+                        <th>Voorwaarde</th>
+                        <td>Praktische opdrachten succesvol afronden</td>
+                    </tr>
+            </table>
+            <br>
+            <h2>Aanmelden</h2>
+            <table class="Aanmelden-table">
+                <thead>
+                    <tr>
+                      <th>Voorwaarde</th>
+                      <th>Details</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Vooropleiding</td>
+                      <td>Geen specifieke vooropleiding nodig</td>
+                    </tr>
+                    <tr>
+                      <td>Leeftijd</td>
+                      <td>17 jaar of ouder</td>
+                    </tr>
+                    <tr>
+                      <td>Taalvereiste</td>
+                      <td>Beheersing van de Nederlandse taal</td>
+                    </tr>
+                    <tr>
+                      <td>Startmogelijkheid</td>
+                      <td>Iedere woensdag direct starten, geen toelatingseisen</td>
+                    </tr>
+                  </tbody>
+              </table>
+            <br>
+            <h2>Vragen?</h2>
+            <p>
+            <h3>Neem contact op met onze studieadviseur via telefoon of e-mail.</h3>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+            <h4>
+                <p>
+                    <a href="tel:+31702089019"><i class="fas fa-phone"></i> 070-2089019</a><br>
+                    <a href="mailto:info@vakademie.com"><i class="fas fa-envelope"></i> info@vakademie.com</a><br>
+                    <a href="https://www.google.com/maps/search/Anna+van+Hannoverstraat+4,+2595+BJ+Den+Haag" target="_blank">
+                        <i class="fas fa-map-marker-alt"></i> Anna van Hannoverstraat 4 | 2595 BJ Den Haag
+                    </a>
+                </p>
+                
+            </h4>
+         <!-- Knoppen -->
+         <a href="purchase.html?course=Photoshop%20Module%20C%20Basis" class="btn">Koop deze cursus</a>
+         <a href="course-registration.html" class="btn btn-secondary">Terug naar cursussen</a>
+        </div>
+    </main>
+     <!-- Script Added Here -->
+     <script>
+        const navbar = document.querySelector(".navbar");
+        const mainHeading = document.getElementById("mainHeading");
+        const mainSearchSection = document.getElementById("mainSearchSection");
+
+        // Shrink header elements on scroll
+        window.addEventListener("scroll", () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add("scrolled");
+                mainHeading.style.fontSize = "2rem";
+                mainSearchSection.classList.add("hidden");
+            } else {
+                navbar.classList.remove("scrolled");
+                mainHeading.style.fontSize = "3rem";
+                mainSearchSection.classList.remove("hidden");
+            }
+        });
+
+        // Sample course data
+        const courses = [
+            { name: "Machine Learning", content: "AI, Deep Learning, Neural Networks", link: "ml-course.html" },
+            { name: "Data Science", content: "Big Data, Analytics, Visualization", link: "data-science-course.html" },
+            { name: "Web Development", content: "HTML, CSS, JavaScript", link: "full-stack.html" },
+            { name: "Edelsmeden - Module C Basis", content: "Edelsmeden, Module C Basis, Cursus, Sieraden maken, Basisvaardigheden, Handwerk, Ringen maken, Hangers maken, Zagen, Vijlen, Schuren, Polijsten, Solderen, Gereedschappen, Alpaca, Zilver, Cursusprijs, Korting voor studenten, Lesmateriaal, Begeleiding en examen, Certificaat, Praktische en theoretische opdrachten, Vooropleiding, Nederlandse taal, Startdatum, Duur, Kostenoverzicht, Startmogelijkheid", link: "edelsmeden.html" },
+            { name: "Photoshop Module C Basis", content: "Photoshop, Cursus, Creatieve ontwerpen, Multimedia-producten, Grafisch ontwerp, Digitale creatie, Certificaat, Niveau 3 module – C, Praktische opdrachten, Standaard cursusprijs, Korting voor studenten, Lesmateriaal, Begeleiding en examen, Vooropleiding, Leeftijd, Taalvereiste, Startmogelijkheid, Nederlandse taal, Folder, Flyer, Logo, Studenten korting, Mbo-hbo-wo-diploma", link: "photoshop.html" }
+        ];
+
+        // Show suggestions based on input
+        function showSuggestions() {
+            const input = document.getElementById("searchInput").value.toLowerCase();
+            const suggestionsBox = document.getElementById("suggestionsBox");
+            suggestionsBox.innerHTML = ""; // Clear previous suggestions
+
+            if (input) {
+                const filteredCourses = courses.filter(course =>
+                    course.name.toLowerCase().includes(input) || course.content.toLowerCase().includes(input)
+                );
+
+                if (filteredCourses.length > 0) {
+                    filteredCourses.forEach(course => {
+                        const suggestionItem = document.createElement("div");
+                        suggestionItem.className = "suggestion-item";
+                        suggestionItem.textContent = course.name;
+                        suggestionItem.onclick = () => navigateTo(course.link);
+                        suggestionsBox.appendChild(suggestionItem);
+                    });
+                    suggestionsBox.style.display = "block";
+                } else {
+                    suggestionsBox.style.display = "none";
+                }
+            } else {
+                suggestionsBox.style.display = "none";
+            }
+        }
+
+        // Navigate to course-specific page
+        function navigateTo(link) {
+            window.location.href = link;
+        }
+
+        // Perform search on button click
+        function performSearch() {
+            const input = document.getElementById("searchInput").value.toLowerCase();
+            if (input) {
+                const filteredCourses = courses.filter(course =>
+                    course.name.toLowerCase().includes(input) || course.content.toLowerCase().includes(input)
+                );
+
+                if (filteredCourses.length > 0) {
+                    navigateTo(filteredCourses[0].link); // Navigate to the first match
+                } else {
+                    alert("No matching courses found!");
+                }
+            } else {
+                alert("Please enter a search term!");
+            }
+        }
+    </script>
+    <footer class="footer">
+        <p>&copy; 2025 Edelsmeden. Alle rechten voorbehouden. <a href="#">Privacybeleid</a></p>
+    </footer>
+</body>
+</html>

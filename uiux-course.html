@@ -1,81 +1,220 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="nl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UI/UX Design</title>
+    <title>UI/UX Design - Module A</title>
     <style>
+        /* Algemene opmaak voor de body */
         body {
             background: linear-gradient(to right, #b92b27, #1565c0);
             color: white;
             font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
             text-align: center;
-            padding: 20px;
         }
 
+        /* Opmaak voor de inhoud */
         .content {
-            margin-top: 50px;
+            margin: 50px auto;
+            padding: 20px;
+            max-width: 900px;
+            background-color: rgba(0, 0, 0, 0.6);
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+            text-align: left;
         }
 
         h1 {
+            text-align: center;
             margin-bottom: 20px;
+            font-size: 2.5em;
         }
 
         p {
-            font-size: 18px;
-            margin-bottom: 10px;
+            font-size: 1.2em;
+            line-height: 1.6;
+            margin: 10px 0;
         }
 
+        .highlight {
+            font-weight: bold;
+            color: #4FC3F7;
+        }
+
+        /* Knoppen */
         .btn {
+            display: inline-block;
             background-color: #ffcc00;
             color: black;
-            padding: 10px 20px;
+            padding: 12px 25px;
             border: none;
             border-radius: 5px;
+            font-size: 1.1em;
+            text-decoration: none;
+            margin: 20px 10px;
+            transition: all 0.3s ease;
             cursor: pointer;
+            text-align: center;
         }
 
         .btn:hover {
             background-color: #e5b800;
-        }
-
-        .purchase-btn {
-            display: inline-block;
-            background: #ffcc00;
-            color: black;
-            padding: 15px 30px;
-            font-size: 1.2em;
-            margin-top: 20px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease-in-out;
-        }
-
-        .purchase-btn:hover {
-            background: #e6b800;
             transform: scale(1.1);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: #ffcc00;
+            border: 2px solid #ffcc00;
+        }
+
+        .btn-secondary:hover {
+            background-color: #ffcc00;
+            color: black;
+        }
+
+        /* Sectietitel */
+        .section-title {
+            font-size: 1.5em;
+            margin-top: 20px;
+            color: #4FC3F7;
+        }
+
+        /* Kostenoverzicht tabel */
+        .cost-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: 20px 0;
+            text-align: left;
+            overflow: hidden;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .cost-table thead {
+            background-color: #039BE5;
+            color: white;
+        }
+
+        .cost-table th, .cost-table td {
+            padding: 15px;
+            border: none;
+        }
+
+        .cost-table tbody tr:nth-child(even) {
+            background-color: rgba(79, 195, 247, 0.3);
+        }
+
+        .cost-table tbody tr:nth-child(odd) {
+            background-color: rgba(79, 195, 247, 0.15);
+        }
+
+        .cost-table tbody tr:hover {
+            background-color: rgba(79, 195, 247, 0.5);
+            transition: background-color 0.3s ease;
+        }
+
+        .cost-table th {
+            font-weight: bold;
+        }
+
+        .cost-table td:first-child,
+        .cost-table th:first-child {
+            border-top-left-radius: 12px;
+        }
+
+        .cost-table td:last-child,
+        .cost-table th:last-child {
+            border-top-right-radius: 12px;
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 50px;
+            font-size: 0.9em;
+            color: rgba(255, 255, 255, 0.8);
+            text-align: center;
+        }
+
+        footer a {
+            color: #4FC3F7;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
-
     <div class="content">
-        <h1>UI/UX Design</h1>
-        <p><strong>Instructor:</strong> Alex Garcia</p>
-        <p><strong>Duration:</strong> 3 Months</p>
-        <p><strong>Price:</strong> €700</p>
-        <p><strong>Location:</strong> On-site</p>
-        <p><strong>Description:</strong> Learn how to design user-friendly interfaces and enhance user experience with advanced design techniques and tools.</p>
+        <h1>UI/UX Design - Module A</h1>
         
-        <!-- Purchase button that redirects to the purchase page -->
-        <a href="purchase.html?course=UI/UX%20Design">
-            <button class="purchase-btn">Purchase This Course</button>
-        </a>
+        <p><span class="highlight">Instructeur:</span> Alex Garcia</p>
+        <p><span class="highlight">Duur:</span> 3 Maanden</p>
+        <p><span class="highlight">Prijs:</span> €700</p>
+        <p><span class="highlight">Locatie:</span> On-site</p>
+        <p><span class="highlight">Beschrijving:</span> Leer hoe je gebruiksvriendelijke interfaces ontwerpt en de gebruikerservaring verbetert met geavanceerde ontwerptechnieken en tools.</p>
+        
+        <div class="section-title">Kostenoverzicht</div>
+        <table class="cost-table">
+            <thead>
+                <tr>
+                    <th>Kosten</th>
+                    <th>Inclusief</th>
+                    <th>Voorwaarden</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Standaard cursusprijs: €700</td>
+                    <td>Lesmateriaal*, begeleiding en examen</td>
+                    <td>Geen specifieke voorwaarden</td>
+                </tr>
+                <tr>
+                    <td>Korting voor studenten (18-30 jaar): €560</td>
+                    <td>Lesmateriaal*, begeleiding en examen</td>
+                    <td>
+                        - Nederlandse nationaliteit<br>
+                        - Leeftijd 18-30 jaar<br>
+                        - Geen eerder behaald mbo-, hbo- of wo-diploma in Nederland
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p><span class="highlight">*Lesmateriaal:</span> De kosten zijn €150,-. Dit bedrag is inbegrepen in de cursusprijs.</p>
+        
+        <div class="section-title">Introductie</div>
+        <p>In deze cursus leer je de fundamenten van UI/UX Design, van het ontwerpen van gebruiksvriendelijke interfaces tot het verbeteren van de algehele gebruikerservaring. Deze cursus richt zich zowel op de theorie als de praktische toepassing van ontwerpprincipes en -tools zoals Adobe XD, Sketch en Figma.</p>
 
-        <!-- Back to Courses button -->
-        <a href="course-registration.html"><button class="btn">Back to Courses</button></a>
+        <div class="section-title">Wat kun je na de cursus?</div>
+        <p>Na het afronden van deze cursus ben je in staat om professionele UI/UX-ontwerpen te maken voor web- en mobiele applicaties. Je hebt inzicht in gebruikersbehoeften, kunt wireframes en prototypes ontwikkelen en hebt ervaring met de tools die veel in de industrie worden gebruikt.</p>
+
+        <div class="section-title">Lesonderwerpen</div>
+        <ul>
+            <li>Inleiding tot UI/UX Design</li>
+            <li>Basisprincipes van gebruikerservaring (UX) en gebruikersinterface (UI)</li>
+            <li>Wireframing en prototyping technieken</li>
+            <li>Introductie tot design tools: Adobe XD, Figma, Sketch</li>
+            <li>Gebruikersonderzoek en het ontwikkelen van personas</li>
+            <li>Interactiedesign en het maken van interfaces</li>
+            <li>Het testen van ontwerpen en het verkrijgen van feedback</li>
+            <li>Project: Ontwerp een complete gebruikersinterface voor een app of website</li>
+        </ul>
+
+        <div class="section-title">Toepassingen van UI/UX Design</div>
+        <p>UI/UX Design is essentieel voor het ontwikkelen van websites en mobiele apps die gemakkelijk te gebruiken zijn en voldoen aan de behoeften van de gebruikers. UI/UX-designers werken in diverse sectoren, waaronder technologie, gezondheidszorg, retail, en financiën.</p>
+
+        <!-- Knoppen -->
+        <a href="purchase.html?course=UI/UX%20Design" class="btn">Koop deze cursus</a>
+        <a href="course-registration.html" class="btn btn-secondary">Terug naar cursussen</a>
     </div>
 
+    <footer>
+        © 2024 UI/UX Design Platform | <a href="privacy.html">Privacy Policy</a> | <a href="terms.html">Algemene Voorwaarden</a>
+    </footer>
 </body>
 </html>

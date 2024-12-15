@@ -1,81 +1,215 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="nl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Machine Learning</title>
+    <title>Machine Learning - Module A</title>
     <style>
+        /* Algemene opmaak voor de body */
         body {
-            background: linear-gradient(to right, #485563, #29323c);
+            background: linear-gradient(to right, #1f4037, #99f2c8);
             color: white;
             font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
             text-align: center;
-            padding: 20px;
         }
 
+        /* Opmaak voor de inhoud */
         .content {
-            margin-top: 50px;
+            margin: 50px auto;
+            padding: 20px;
+            max-width: 900px;
+            background-color: rgba(0, 0, 0, 0.6);
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+            text-align: left;
         }
 
         h1 {
+            text-align: center;
             margin-bottom: 20px;
+            font-size: 2.5em;
         }
 
         p {
-            font-size: 18px;
-            margin-bottom: 10px;
+            font-size: 1.2em;
+            line-height: 1.6;
+            margin: 10px 0;
         }
 
+        .highlight {
+            font-weight: bold;
+            color: #4FC3F7;
+        }
+
+        /* Knoppen */
         .btn {
-            background-color: #ffcc00;
+            display: inline-block;
+            background-color: #4FC3F7;
             color: black;
-            padding: 10px 20px;
+            padding: 12px 25px;
             border: none;
             border-radius: 5px;
+            font-size: 1.1em;
+            text-decoration: none;
+            margin: 20px 10px;
+            transition: all 0.3s ease;
             cursor: pointer;
+            text-align: center;
         }
 
         .btn:hover {
-            background-color: #e5b800;
-        }
-
-        .purchase-btn {
-            display: inline-block;
-            background: #ffcc00;
-            color: black;
-            padding: 15px 30px;
-            font-size: 1.2em;
-            margin-top: 20px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease-in-out;
-        }
-
-        .purchase-btn:hover {
-            background: #e6b800;
+            background-color: #039BE5;
             transform: scale(1.1);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: #4FC3F7;
+            border: 2px solid #4FC3F7;
+        }
+
+        .btn-secondary:hover {
+            background-color: #4FC3F7;
+            color: black;
+        }
+
+        /* Sectietitel */
+        .section-title {
+            font-size: 1.5em;
+            margin-top: 20px;
+            color: #4FC3F7;
+        }
+
+        /* Kostenoverzicht tabel */
+        .cost-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: 20px 0;
+            text-align: left;
+            overflow: hidden;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .cost-table thead {
+            background-color: #039BE5;
+            color: white;
+        }
+
+        .cost-table th, .cost-table td {
+            padding: 15px;
+            border: none;
+        }
+
+        .cost-table tbody tr:nth-child(even) {
+            background-color: rgba(79, 195, 247, 0.3);
+        }
+
+        .cost-table tbody tr:nth-child(odd) {
+            background-color: rgba(79, 195, 247, 0.15);
+        }
+
+        .cost-table tbody tr:hover {
+            background-color: rgba(79, 195, 247, 0.5);
+            transition: background-color 0.3s ease;
+        }
+
+        .cost-table th {
+            font-weight: bold;
+        }
+
+        .cost-table td:first-child,
+        .cost-table th:first-child {
+            border-top-left-radius: 12px;
+        }
+
+        .cost-table td:last-child,
+        .cost-table th:last-child {
+            border-top-right-radius: 12px;
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 50px;
+            font-size: 0.9em;
+            color: rgba(255, 255, 255, 0.8);
+            text-align: center;
+        }
+
+        footer a {
+            color: #4FC3F7;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
-
     <div class="content">
-        <h1>Machine Learning</h1>
-        <p><strong>Instructor:</strong> Emily Clark</p>
-        <p><strong>Duration:</strong> 5 Months</p>
-        <p><strong>Price:</strong> €1000</p>
-        <p><strong>Location:</strong> Online</p>
-        <p><strong>Description:</strong> Dive deep into the world of machine learning, neural networks, and deep learning algorithms to become a proficient ML practitioner.</p>
+        <h1>Machine Learning - Module A</h1>
         
-        <!-- Purchase button that redirects to the purchase page -->
-        <a href="purchase.html?course=Machine%20Learning">
-            <button class="purchase-btn">Purchase This Course</button>
-        </a>
+        <p><span class="highlight">Dag:</span> Maandag</p>
+        <p><span class="highlight">Tijd:</span> 10:00 - 12:30</p>
+        <p><span class="highlight">Startdatum:</span> 15 februari 2025</p>
+        <p><span class="highlight">Duur:</span> 6 maanden (24 lessen)</p>
+        <p><span class="highlight">Kosten:</span> €1200</p>
+        
+        <div class="section-title">Kostenoverzicht</div>
+        <table class="cost-table">
+            <thead>
+                <tr>
+                    <th>Kosten</th>
+                    <th>Inclusief</th>
+                    <th>Voorwaarden</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Standaard cursusprijs: €1200</td>
+                    <td>Lesmateriaal*, begeleiding en examen</td>
+                    <td>Geen specifieke voorwaarden</td>
+                </tr>
+                <tr>
+                    <td>Korting voor studenten (18-30 jaar): €960</td>
+                    <td>Lesmateriaal*, begeleiding en examen</td>
+                    <td>
+                        - Nederlandse nationaliteit<br>
+                        - Leeftijd 18-30 jaar<br>
+                        - Geen eerder behaald mbo-, hbo- of wo-diploma in Nederland
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p><span class="highlight">*Lesmateriaal:</span> De kosten zijn €250,-. Dit bedrag is inbegrepen in de cursusprijs.</p>
+        
+        <div class="section-title">Introductie</div>
+        <p>In deze Machine Learning cursus leer je de fundamentele technieken van machine learning, zoals supervised en unsupervised learning, regressieanalyse, classificatie en clustering. Je krijgt praktische ervaring met tools zoals Python, TensorFlow, en scikit-learn.</p>
 
-        <!-- Back to Courses button -->
-        <a href="course-registration.html"><button class="btn">Back to Courses</button></a>
+        <div class="section-title">Wat kun je na de cursus?</div>
+        <p>Na afronding van deze cursus kun je machine learning-modellen bouwen, implementeren en evalueren. Je zult in staat zijn om real-world datasets te verwerken en voorspellingen te doen met behulp van geavanceerde machine learning-technieken.</p>
+
+        <div class="section-title">Lesonderwerpen</div>
+        <ul>
+            <li>Inleiding tot Machine Learning</li>
+            <li>Supervised Learning</li>
+            <li>Unsupervised Learning</li>
+            <li>Modelvalidatie en hyperparameterafstemming</li>
+            <li>Neurale netwerken en deep learning</li>
+            <li>Toepassingen van machine learning in de industrie</li>
+        </ul>
+
+        <!-- Knoppen -->
+        <a href="purchase.html?course=Machine%20Learning" class="btn">Koop deze cursus</a>
+        <a href="course-registration.html" class="btn btn-secondary">Terug naar cursussen</a>
     </div>
 
+    <footer>
+        © 2024 Machine Learning Platform | <a href="privacy.html">Privacy Policy</a> | <a href="terms.html">Algemene Voorwaarden</a>
+    </footer>
 </body>
 </html>
