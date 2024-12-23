@@ -154,45 +154,67 @@
         <p id="selectedCourse"></p>
 
         <form id="purchaseForm">
-            <label for="salutation">Salutation:</label>
-            <select id="salutation" required>
-                <option value="Mr.">Mr.</option>
-                <option value="Ms.">Ms.</option>
-                <option value="Mrs.">Mrs.</option>
-                <option value="Dr.">Dr.</option>
-            </select>
-
+            <div class = 'form-field'>
+                <label for="salutation">Aanhef:</label>
+                <select id="salutation" required>
+                    <option value="Dhr.">Dhr.</option>
+                    <option value="Mw.">Mw.</option>
+                </select>
+            </div>
+            <div class = 'form-field'>
             <label for="firstName">Voornaam:</label>
             <input type="text" id="firstName" placeholder="Vul uw voornaam in" required>
-
+            </div>
+            <div class = 'form-field'>
+                <label for="MiddleName">Tudssenvoegel:</label>
+                <input type="text" id="MiddleName" placeholder="Vul uw voornaam in" required>
+            </div>
+            <div class = 'form-field'>
             <label for="lastName">Achternaam:</label>
             <input type="text" id="lastName" placeholder="Vul uw achternaam in" required>
-
+            </div>
+            <div class="date-container">
+                <label for="birthdate">Enter your birthdate (dd-mm-yyyy):</label>
+                <input type="date" id="calendar" onchange="syncDate()" style="margin-top: 10px;">
+            </div>
+            <div class = 'form-field'>
             <!-- Phone number above email -->
             <label for="phone">Telefoonnummer:</label>
             <input type="tel" id="phone" placeholder="Vul uw telefoonnummer in" required>
             <div id="phoneStatus"></div>
-
+            </div>
+            <div class = 'form-field'>
             <label for="email">E-mail:</label>
             <input type="email" id="email" placeholder="Vul uw e-mail in" required>
             <span id="emailStatus"></span>
-
+            </div>
+            <div class = 'form-field'>
+                <label for="confirmEmail">Bevestig E-mail:</label>
+                <input type="email" id="confirmEmail" placeholder="Herhaal uw e-mail" required>
+                <span id="emailMatchStatus"></span>
+            </div>
             <!-- Address fields with house number first -->
+            <div class = 'form-field'>
+                <label for="postalCode">Postcode:</label>
+                <input type="text" id="postalCode" placeholder="Vul de postcode in (1234 AB)" required>
+            </div>
+            <div class = 'form-field'>
             <label for="houseNumber">Huisnummer:</label>
             <input type="text" id="houseNumber" placeholder="Vul het huisnummer in" required>
-
+            </div>
+            <div class = 'form-field'>
             <label for="address">Straatnaam:</label>
             <input type="text" id="address" placeholder="Vul de straatnaam in" required>
-
+            </div>
+            <div class = 'form-field'>
             <label for="city">Stad:</label>
             <select id="citySelect" required>
                 <option value="">Selecteer een stad</option>
             </select>
-
-            <label for="postalCode">Postcode:</label>
-            <input type="text" id="postalCode" placeholder="Vul de postcode in" required>
-
-            <button type="submit" class="btn-submit">Verzenden</button>
+            </div>
+            <div class = 'form-field'>
+            <button type="submit" class="btn-submit" id = "btn-submit">Naar Betaal</button>
+            </div>
         </form>
     </div>
 
@@ -201,6 +223,68 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
 
     <script>
+         document.addEventListener("DOMContentLoaded", () => {
+                const fields = [
+                    "salutation",
+                    "firstName",
+                    "lastName",
+                    "calendar",
+                    "phone",
+                    "email",
+                    "confirmEmail",
+                    "postalCode",
+                    "houseNumber",
+                    "address",
+                    "citySelect",
+                    
+                ];
+        
+                // Hide all fields except the first one
+                fields.forEach((field, index) => {
+                    const element = document.getElementById(field);
+                    if (index > 4) {
+                        element.parentElement.style.display = "none";
+                    }
+                });
+        
+                // Show the next field if the current one is valid
+                function showNextField(index) {
+                    if (index + 1 < fields.length) {
+                        const nextElement = document.getElementById(fields[index + 1]);
+                        nextElement.parentElement.style.display = "block";
+                    }
+                    nextElement.focus();  // Focus on the next input
+                }
+        
+                // Event listeners for each field
+                fields.forEach((field, index) => {
+                    const inputElement = document.getElementById(field);
+                    inputElement.addEventListener("input", () => {
+                        if (inputElement.checkValidity()) {
+                            showNextField(index);
+                        }
+                    });
+                });
+            });
+            function validateDate(input) {
+        const datePattern = /^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-\d{4}$/;
+        if (input.value.match(datePattern)) {
+            const parts = input.value.split('-');
+            const formattedDate = `${parts[2]}-${parts[1]}-${parts[0]}`;
+            document.getElementById('calendar').value = formattedDate;
+        } else {
+            document.getElementById('calendar').value = "";
+        }
+    }
+
+    function syncDate() {
+        const calendar = document.getElementById('calendar').value;
+        if (calendar) {
+            const parts = calendar.split('-');
+            const formattedDate = `${parts[2]}-${parts[1]}-${parts[0]}`;
+            document.getElementById('birthdate').value = formattedDate;
+        }
+    }
         // Initialize phone number input with intl-tel-input library
         const phoneInput = document.querySelector("#phone");
         const iti = window.intlTelInput(phoneInput, {
@@ -261,11 +345,65 @@
             }
         });
 
-        // Handle form submission (for demo purposes)
-        document.getElementById("purchaseForm").addEventListener("submit", function(e) {
-            e.preventDefault();
-            alert("Form submitted!");
+        // // Handle form submission (for demo purposes)
+        // document.getElementById("purchaseForm").addEventListener("submit", function(e) {
+        //     e.preventDefault();
+        //     alert("Form submitted!");
+        // });
+        document.getElementById('confirmEmail').addEventListener('input', function() {
+            const email = document.getElementById('email').value;
+            const confirmEmail = this.value;
+            const status = document.getElementById('emailMatchStatus');
+
+            if (email === confirmEmail) {
+                status.textContent = "Emails match!";
+                status.className = "valid";
+            } else {
+                status.textContent = "Emails do not match!";
+                status.className = "invalid";
+            }
         });
+        document.getElementById("btn-submit").addEventListener("click", function (e) {
+    e.preventDefault(); // Prevent default form submission
+
+    // Gather user details
+    const salutation = document.getElementById("salutation").value;
+    const firstName = document.getElementById("firstName").value;
+    const lastName = document.getElementById("lastName").value;
+    const email = document.getElementById("email").value;
+    const calendar = document.getElementById("calendar").value;
+    const postalCode = document.getElementById("postalCode").value;
+    const address = document.getElementById("address").value;
+    const houseNumber = document.getElementById("houseNumber").value;
+    const city = document.getElementById("citySelect").value;
+
+    // Validate required fields
+    if (!firstName || !lastName || !email || !postalCode || !houseNumber || !address || !city) {
+        alert("Please fill out all required fields.");
+        return;
+    }
+
+    // Store details in localStorage
+    localStorage.setItem(
+        "userDetails",
+        JSON.stringify({
+            salutation,
+            firstName,
+            lastName,
+            email,
+            calendar,
+            postalCode,
+            address,
+            houseNumber,
+            city,
+        })
+    );
+
+    // Redirect to payment.html
+    window.location.href = "payment.html";
+});
+
+
     </script>
 </body>
 </html>
