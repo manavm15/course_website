@@ -117,6 +117,15 @@
     .suggestion-box div:hover {
       background-color: #eee;
     }
+
+    /* New Style for Error Messages */
+    .error-message {
+      color: red;
+      font-size: 0.9em;
+      margin-top: -10px;
+      margin-bottom: 10px;
+      height: 18px; /* to keep space reserved even if empty */
+    }
   </style>
 </head>
 <body>
@@ -214,7 +223,6 @@
           <option value="">Selecteer een stad</option>
         </select>
       </div>
-
       <button type="submit" class="btn-submit" id="btn-submit">Naar Betaal</button>
     </form>
   </div>
@@ -241,8 +249,10 @@
      * 2) Rollback prompt (beforeunload event)
      ********************************************************/
     function beforeUnloadHandler(e) {
-      e.preventDefault();
-      e.returnValue = "Are you sure you want to leave this page? Your data will be lost if not submitted.";
+      if (!submitted) { // Only prompt if not submitted
+        e.preventDefault();
+        e.returnValue = "Weet u zeker dat u deze pagina wilt verlaten? Uw gegevens gaan verloren als u niet indient.";
+      }
     }
     window.addEventListener("beforeunload", beforeUnloadHandler);
 
@@ -402,7 +412,7 @@
     /********************************************************
      * 8) Submit form -> remove rollback, store in session
      ********************************************************/
-    document.getElementById("btn-submit").addEventListener("click", function(e) {
+    document.getElementById("purchaseForm").addEventListener("submit", function(e) {
       e.preventDefault();
 
       // Basic gather
@@ -418,6 +428,7 @@
       const address = document.getElementById("address").value.trim();
       const houseNumber = document.getElementById("houseNumber").value.trim();
       const city = document.getElementById("citySelect").value.trim();
+
 
       // Basic checks
       if (!scourse || !salutation || !firstName || !lastName 
@@ -437,7 +448,9 @@
 
       // Remove the beforeunload handler
       window.removeEventListener("beforeunload", beforeUnloadHandler);
-      
+
+      // **Set submitted to true to prevent sessionStorage removal**
+      submitted = true;
 
       // Save data in sessionStorage so payment.html can read it
       const userData = {
@@ -458,16 +471,6 @@
       // redirect to payment
       window.location.href = "payment.html";
     });
-  </script>
-
-  <script>
-    // If user leaves the page (pagehide) and hasn't submitted, remove data
-    function handlePageHide(event) {
-      if (!submitted) {
-        sessionStorage.removeItem("userDetails");
-      }
-    }
-    window.addEventListener("pagehide", handlePageHide);
   </script>
 </body>
 </html>

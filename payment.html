@@ -393,5 +393,28 @@
         }
         window.addEventListener("pagehide", handlePageHide);
     </script>
+    <script>
+        /************************
+         * 1) Handle Redirect if User Returns
+         ************************/
+        document.addEventListener("DOMContentLoaded", function () {
+            // Check if the user previously left the payment page
+            if (sessionStorage.getItem("leftPaymentPage")) {
+                // Redirect to the purchase page for security
+                window.location.href = "purchase.html";
+            }
+        });
+    
+        /************************
+         * 2) Mark as Left on Page Leave
+         ************************/
+        function handlePageUnload(event) {
+            sessionStorage.setItem("leftPaymentPage", "true");
+        }
+    
+        window.addEventListener("beforeunload", handlePageUnload);
+        window.addEventListener("pagehide", handlePageUnload);
+    </script>
+    
 </body>
 </html>
