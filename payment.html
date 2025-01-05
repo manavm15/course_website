@@ -94,6 +94,7 @@
             height: 18px; /* to keep space reserved even if empty */
         }
     </style>
+ 
 </head>
 <body>
     <!-- Navigation Tabs -->
@@ -159,26 +160,66 @@
         /************************
          * 1) Populate User Details
          ************************/
-        document.addEventListener("DOMContentLoaded", function () {
-            const userDetails = JSON.parse(sessionStorage.getItem("userDetails"));
-            if (userDetails) {
-                document.getElementById("userDetailsReview").innerHTML = `
-                    <p><strong>Name:</strong> ${userDetails.firstName} ${userDetails.lastName}</p>
-                    <p><strong>Email:</strong> ${userDetails.email}</p>
-                    <p><strong>Address:</strong> ${userDetails.houseNumber} ${userDetails.address}, ${userDetails.city}, ${userDetails.postalCode}</p>
-                `;
+         document.addEventListener("DOMContentLoaded", function () {
+  const userDetails = JSON.parse(sessionStorage.getItem("userDetails"));
 
-                // Pre-fill email/phone if available
-                if (userDetails.email) {
-                    document.getElementById("email").value = userDetails.email;
-                }
-                if (userDetails.phone) {
-                    document.getElementById("phone").value = userDetails.phone;
-                }
-            } else {
-                document.getElementById("userDetailsReview").innerHTML = "<p>No user details available.</p>";
-            }
-        });
+  // Redirect to `purchase.html` if no user data is available
+  if (!userDetails || Object.keys(userDetails).length === 0) {
+    window.location.href = "purchase.html";
+    return;
+  }
+
+  // Populate user details in the review section
+  document.getElementById("userDetailsReview").innerHTML = `
+    <p><strong>Name:</strong> ${userDetails.firstName} ${userDetails.middleName} ${userDetails.lastName}</p>
+    <p><strong>Email:</strong> ${userDetails.email}</p>
+    <p><strong>Phone:</strong> ${userDetails.phone}</p>
+    <p><strong>Address:</strong> ${userDetails.houseNumber} ${userDetails.address}, ${userDetails.city}, ${userDetails.postalCode}</p>
+    <p><strong>Course:</strong> ${userDetails.course}</p>
+  `;
+
+  // Pre-fill email and phone fields
+  document.getElementById("email").value = userDetails.email;
+  document.getElementById("phone").value = userDetails.phone;
+});
+
+// Clear session storage on form submission
+document.getElementById("paymentForm").addEventListener("submit", function (e) {
+  e.preventDefault();
+
+  // Validation checks
+  const paymentDetails = {
+    paymentTerms: document.getElementById("payment_terms").value,
+    iban: document.getElementById("iban").value.trim(),
+    agreeTerms: document.getElementById("agreeTerms").checked,
+  };
+
+  if (!paymentDetails.paymentTerms) {
+    alert("Please select payment terms.");
+    return;
+  }
+  if (!paymentDetails.iban) {
+    alert("Please enter a valid IBAN.");
+    return;
+  }
+  if (!paymentDetails.agreeTerms) {
+    alert("You must agree to the terms and conditions.");
+    return;
+  }
+
+  // Combine payment data with user details
+  const userDetails = JSON.parse(sessionStorage.getItem("userDetails"));
+  const finalDetails = { ...userDetails, ...paymentDetails };
+
+  // Simulate sending to a server
+  console.log("Submitting payment details:", finalDetails);
+
+  // Clear `sessionStorage` and redirect
+  sessionStorage.removeItem("userDetails");
+  alert("Payment submitted successfully!");
+  window.location.href = "thank-you.html";
+});
+
 
         /************************
          * 2) Validate Email
