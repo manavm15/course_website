@@ -106,7 +106,7 @@
     <div id="payment" class="section active-section">
         <h2>Payment Details</h2>
 
-        <!-- Review of user details from localStorage -->
+        <!-- Review of user details from sessionStorage -->
         <div id="userDetailsReview"></div>
 
         <form id="paymentForm">
@@ -160,7 +160,7 @@
          * 1) Populate User Details
          ************************/
         document.addEventListener("DOMContentLoaded", function () {
-            const userDetails = JSON.parse(localStorage.getItem("userDetails"));
+            const userDetails = JSON.parse(sessionStorage.getItem("userDetails"));
             if (userDetails) {
                 document.getElementById("userDetailsReview").innerHTML = `
                     <p><strong>Name:</strong> ${userDetails.firstName} ${userDetails.lastName}</p>
@@ -329,8 +329,8 @@
                 termsError.textContent = "";
             }
 
-            // Merge with localStorage userDetails (if available)
-            const userDetails = JSON.parse(localStorage.getItem("userDetails")) || {};
+            // Merge with sessionStorage userDetails (if available)
+            const userDetails = JSON.parse(sessionStorage.getItem("userDetails")) || {};
             const finalDetails = { ...userDetails, ...{
                 paymentTerms,
                 email: emailVal,
@@ -388,7 +388,7 @@
          ************************/
         function handlePageHide(event) {
             if (!formSubmitted) {
-                localStorage.removeItem("userDetails");
+                sessionStorage.removeItem("userDetails");
             }
         }
         window.addEventListener("pagehide", handlePageHide);
