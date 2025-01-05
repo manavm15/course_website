@@ -90,10 +90,13 @@
             color: red;
             font-size: 0.9em;
             margin-top: -10px;
+            margin-bottom: 10px;
+            height: 18px; /* to keep space reserved even if empty */
         }
     </style>
 </head>
 <body>
+    <!-- Navigation Tabs -->
     <div class="tabs">
         <div class="tab" onclick="window.location.href='index.html'">Home</div>
         <div class="tab" onclick="window.location.href='course-registration.html'">Courses</div>
@@ -103,60 +106,59 @@
     <div id="payment" class="section active-section">
         <h2>Payment Details</h2>
 
-        <!-- User Details Review -->
+        <!-- Review of user details from localStorage -->
         <div id="userDetailsReview"></div>
 
         <form id="paymentForm">
+            <!-- Payment Terms -->
             <h3>Betaaltermijnen</h3>
             <label for="payment_terms">Select Payment Terms:</label>
             <select id="payment_terms" name="payment_terms" required>
+                <option value="">--Selecteer--</option>
                 <option value="ineens">Ineens (One-time payment)</option>
                 <option value="2_months">2 maandterminen (2 monthly installments)</option>
             </select>
 
+            <!-- Payment Method (example) -->
             <h3>Betaalwijze</h3>
             <hr>
 
+            <!-- Email Field -->
+            <label for="email">E-mail:</label>
+            <input type="email" id="email" name="email" placeholder="e.g. john@example.com" readonly>
+            <div id="email_error" class="error-message"></div>
+
+            <!-- Phone Field -->
+            <label for="phone">Telefoonnummer:</label>
+            <input type="tel" id="phone" name="phone" placeholder="+31 6 12345678" required>
+            <div id="phone_error" class="error-message"></div>
+
+            <!-- IBAN Field -->
             <h3>Enter Dutch Bank Account (IBAN)</h3>
-            <input type="text" id="iban" name="iban" placeholder="NL00 BANK 0000 0000 00" required>
+            <input
+              type="text"
+              id="iban"
+              name="iban"
+              placeholder="NL00 BANK 0000 0000 00"
+              required
+            />
             <div id="iban_error" class="error-message"></div>
+
+            <!-- Agreement Checkbox -->
+            <div class="form-field">
+                <input type="checkbox" id="agreeTerms" required>
+                <label for="agreeTerms">Ik ga akkoord met de <a href="terms.html" target="_blank" style="color: #ffcc00; text-decoration: underline;">algemene voorwaarden</a></label>
+                <div id="terms_error" class="error-message"></div>
+            </div>
 
             <button type="submit" class="btn-submit">Submit</button>
         </form>
     </div>
 
     <script>
-        // Validate IBAN format
-        function validateIBAN(iban) {
-            const ibanPattern = /^NL\d{2}[A-Z]{4}\d{10}$/;
-            return ibanPattern.test(iban.replace(/\s/g, ''));
-        }
-
-        function formatIBAN(input) {
-            let iban = input.value.toUpperCase().replace(/\s+/g, '');
-            let formatted = '';
-            for (let i = 0; i < iban.length; i++) {
-                formatted += iban[i];
-                if ((i + 1) % 4 === 0 && i !== iban.length - 1) {
-                    formatted += ' ';
-                }
-            }
-            input.value = formatted;
-        }
-
-        document.getElementById("iban").addEventListener("input", function () {
-            formatIBAN(this);
-            const iban = this.value.replace(/\s/g, '');
-            const ibanError = document.getElementById("iban_error");
-
-            if (!validateIBAN(iban)) {
-                ibanError.textContent = "Invalid Dutch IBAN format. Please enter a valid IBAN.";
-            } else {
-                ibanError.textContent = "";
-            }
-        });
-
-        // Populate User Details
+        /************************
+         * 1) Populate User Details
+         ************************/
         document.addEventListener("DOMContentLoaded", function () {
             const userDetails = JSON.parse(localStorage.getItem("userDetails"));
             if (userDetails) {
@@ -165,30 +167,187 @@
                     <p><strong>Email:</strong> ${userDetails.email}</p>
                     <p><strong>Address:</strong> ${userDetails.houseNumber} ${userDetails.address}, ${userDetails.city}, ${userDetails.postalCode}</p>
                 `;
+
+                // Pre-fill email/phone if available
+                if (userDetails.email) {
+                    document.getElementById("email").value = userDetails.email;
+                }
+                if (userDetails.phone) {
+                    document.getElementById("phone").value = userDetails.phone;
+                }
             } else {
                 document.getElementById("userDetailsReview").innerHTML = "<p>No user details available.</p>";
             }
         });
 
-        // Submit Form
+        /************************
+         * 2) Validate Email
+         ************************/
+        function isValidEmail(value) {
+            // Basic pattern: something@something.something
+            return /^\S+@\S+\.\S+$/.test(value.trim());
+        }
+
+        const emailInput = document.getElementById("email");
+        const emailError = document.getElementById("email_error");
+
+        // Validate on input
+        emailInput.addEventListener("input", function () {
+            const emailVal = emailInput.value.trim();
+            if (!emailVal) {
+                emailError.textContent = ""; // empty => no error
+                return;
+            }
+            if (!isValidEmail(emailVal)) {
+                emailError.textContent = "Invalid email format.";
+            } else {
+                emailError.textContent = "";
+            }
+        });
+
+        /************************
+         * 3) Validate Phone
+         ************************/
+        // Basic pattern for demonstration, e.g. 7-15 digits with optional + sign
+        function isValidPhone(value) {
+            // Start with optional +, then 7 to 15 digits
+            return /^\+?\d{7,15}$/.test(value.trim());
+        }
+
+        const phoneInput = document.getElementById("phone");
+        const phoneError = document.getElementById("phone_error");
+
+        phoneInput.addEventListener("input", function () {
+            const phoneVal = phoneInput.value.trim();
+            if (!phoneVal) {
+                phoneError.textContent = "";
+                return;
+            }
+            if (!isValidPhone(phoneVal)) {
+                phoneError.textContent = "Invalid phone number.";
+            } else {
+                phoneError.textContent = "";
+            }
+        });
+
+        /************************
+         * 4) Validate IBAN
+         ************************/
+        function validateIBAN(iban) {
+            // e.g. NL00 BANK 0000 0000 00
+            const ibanPattern = /^NL\d{2}[A-Z]{4}\d{10}$/;
+            return ibanPattern.test(iban.replace(/\s/g, '').toUpperCase());
+        }
+
+        function formatIBAN(input) {
+            let iban = input.value.toUpperCase().replace(/\s+/g, '');
+            let formatted = '';
+            for (let i = 0; i < iban.length; i++) {
+                formatted += iban[i];
+                // add space every 4 chars, except at the very end
+                if ((i + 1) % 4 === 0 && i !== iban.length - 1) {
+                    formatted += ' ';
+                }
+            }
+            input.value = formatted;
+        }
+
+        const ibanInput = document.getElementById("iban");
+        const ibanError = document.getElementById("iban_error");
+
+        ibanInput.addEventListener("input", function () {
+            formatIBAN(this);
+            const ibanVal = this.value.replace(/\s/g, '').toUpperCase();
+            if (!ibanVal) {
+                ibanError.textContent = "";
+                return;
+            }
+            if (!validateIBAN(ibanVal)) {
+                ibanError.textContent = "Invalid Dutch IBAN format. Please enter a valid IBAN.";
+            } else {
+                ibanError.textContent = "";
+            }
+        });
+
+        /************************
+         * 5) Validate Agreement Checkbox
+         ************************/
+        const agreeTermsCheckbox = document.getElementById("agreeTerms");
+        const termsError = document.getElementById("terms_error");
+
+        /************************
+         * 6) Submit Form
+         ************************/
         document.getElementById("paymentForm").addEventListener("submit", function (e) {
             e.preventDefault();
 
-            const paymentDetails = {
-                paymentTerms: document.getElementById("payment_terms").value,
-                iban: document.getElementById("iban").value,
-            };
+            // Final validation checks before submission
+            const emailVal = emailInput.value.trim();
+            const phoneVal = phoneInput.value.trim();
+            const ibanVal = ibanInput.value.replace(/\s/g, '').toUpperCase();
+            const paymentTerms = document.getElementById("payment_terms").value;
+            const isAgree = agreeTermsCheckbox.checked;
 
-            const userDetails = JSON.parse(localStorage.getItem("userDetails"));
+            // 1) Email
+            if (!emailVal || !isValidEmail(emailVal)) {
+                emailError.textContent = "Invalid email format.";
+                emailInput.focus();
+                return;
+            } else {
+                emailError.textContent = "";
+            }
 
-            if (!userDetails) {
-                alert("No user details found. Please start from the registration page.");
+            // 2) Phone
+            if (!phoneVal || !isValidPhone(phoneVal)) {
+                phoneError.textContent = "Invalid phone number.";
+                phoneInput.focus();
+                return;
+            } else {
+                phoneError.textContent = "";
+            }
+
+            // 3) IBAN
+            if (!ibanVal || !validateIBAN(ibanVal)) {
+                ibanError.textContent = "Invalid Dutch IBAN format.";
+                ibanInput.focus();
+                return;
+            } else {
+                ibanError.textContent = "";
+            }
+
+            // 4) Payment Terms
+            if (!paymentTerms) {
+                alert("Please select payment terms.");
                 return;
             }
 
-            const finalDetails = { ...userDetails, ...paymentDetails };
+            // 5) Agreement Checkbox
+            if (!isAgree) {
+                termsError.textContent = "U moet akkoord gaan met de algemene voorwaarden.";
+                return;
+            } else {
+                termsError.textContent = "";
+            }
 
-            fetch("http://localhost:3000/submit-form", {
+            // Merge with localStorage userDetails (if available)
+            const userDetails = JSON.parse(localStorage.getItem("userDetails")) || {};
+            const finalDetails = { ...userDetails, ...{
+                paymentTerms,
+                email: emailVal,
+                phone: phoneVal,
+                iban: ibanInput.value,
+                agreedToTerms: isAgree
+            } };
+
+            // Debugging: Log finalDetails
+            console.log("Final Details to Submit:", finalDetails);
+
+            // Remove the beforeunload handler
+            window.removeEventListener("beforeunload", beforeUnloadHandler);
+            formSubmitted = true; // so pagehide won't remove data
+
+            // 6) Send to server (example)
+            fetch("http://localhost:3000/submit-form", { // Replace with your actual server endpoint
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -196,21 +355,43 @@
                 body: JSON.stringify(finalDetails),
             })
             .then((response) => {
-            if (!response.ok) {
-                throw new Error("Server error: " + response.status);
-            }
-            return response.json();
-        })
-        .then((data) => {
-            alert("Payment submitted successfully!");
-            console.log("Server Response:", data);
-        })
-        .catch((error) => {
-            console.error("Error submitting payment:", error);
-            alert("Failed to submit payment. Please try again.");
+                if (!response.ok) {
+                    throw new Error("Server error: " + response.status);
+                }
+                return response.json();
+            })
+            .then((data) => {
+                alert("Payment submitted successfully!");
+                console.log("Server Response:", data);
+                // Optionally, redirect to a thank-you page
+                // window.location.href = "thank-you.html";
+            })
+            .catch((error) => {
+                console.error("Error submitting payment:", error);
+                alert("Failed to submit payment. Please try again.");
+            });
         });
 
-        });
+        /************************
+         * 7) Rollback Prompt (beforeunload event)
+         ************************/
+        function beforeUnloadHandler(e) {
+            if (!formSubmitted) { // Only prompt if not submitted
+                e.preventDefault();
+                e.returnValue = "Weet u zeker dat u deze pagina wilt verlaten? Uw gegevens gaan verloren als u niet indient.";
+            }
+        }
+        window.addEventListener("beforeunload", beforeUnloadHandler);
+
+        /************************
+         * 8) Page Hide Cleanup
+         ************************/
+        function handlePageHide(event) {
+            if (!formSubmitted) {
+                localStorage.removeItem("userDetails");
+            }
+        }
+        window.addEventListener("pagehide", handlePageHide);
     </script>
 </body>
 </html>

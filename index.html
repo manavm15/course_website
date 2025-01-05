@@ -7,15 +7,38 @@
     <style>
         /* General Styling */
         body {
-            margin: 0;
+            background: linear-gradient(to right, #1e3c72, #2a5298);
             font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #74ebd5, #ACB6E5);
+            padding: 40px;
             color: white;
             text-align: center;
-            padding: 0;
-            min-height: 100vh;
         }
 
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            margin: 0 20px;
+            padding: 10px 20px;
+            cursor: pointer;
+            background-color: #333;
+            color: white;
+            border-radius: 5px;
+            font-size: 1.2em;
+            transition: background-color 0.3s ease;
+        }
+
+        .tab:hover {
+            background-color: #555;
+        }
+
+        .tab.active {
+            background-color: #ffcc00;
+            color: #333;
+        }
         /* Navigation Bar */
         .navbar {
             display: flex;
@@ -177,7 +200,49 @@ input::placeholder {
     font-size: 16px; /* Default font size */
     color: #888; /* Placeholder color */
 }
+  /* Image Carousel Section */
+  .image-section {
+            margin: 50px auto;
+            width: 90%; /* Set a fixed width */
+            max-width: 1200px;
+            position: relative;
+            overflow: hidden; /* Hide images that are off-screen */
+        }
 
+        .image-slider {
+            display: flex;
+            transition: transform 0.5s ease-in-out; /* Smooth sliding transition */
+        }
+
+        .image-slider img {
+            width: 100%; /* Each image takes full width of the container */
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            object-fit: cover; /* Ensure images fill the container and are cropped if necessary */
+        }
+
+        /* Navigation Arrows */
+        .prev, .next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            padding: 10px;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            z-index: 1000;
+        }
+
+        .prev {
+            left: 10px;
+        }
+
+        .next {
+            right: 10px;
+        }
 /* For devices smaller than 1024px (tablets) */
 @media (max-width: 1024px) {
     input::placeholder {
@@ -210,18 +275,12 @@ input::placeholder {
 </head>
 <body>
     <!-- Navigation Bar -->
-    <div class="navbar">
-        <div class="logo">Course Portal</div>
-        <div class="nav-items">
-            <a href="index.html">Home</a>
-            <a href="course-registration.html">Courses</a>
-            <a href="purchase.html">Contact</a>
-        </div>
-        <div class="search-box">
-            <input type="text" placeholder="Search courses..." id="headerSearchInput">
-            <button>🔍</button>
-        </div>
+    <div class="tabs">
+        <div class="tab active" onclick="window.location.href='index.html'">Home</div>
+        <div class="tab" onclick="window.location.href='course-registration.html'">Courses</div>
+        <div class="tab" onclick="window.location.href='contact.html'">Contact</div>
     </div>
+
 
     <!-- Main Content -->
     <div class="content">
@@ -238,8 +297,16 @@ input::placeholder {
         </div>
 
         <!-- Placeholder for Images -->
-        <div class="image-section">
-            <img src="placeholder.jpg" alt="Placeholder Image">
+         <!-- Image Carousel Section -->
+         <div class="image-section">
+            <div class="image-slider" id="imageSlider">
+                <img src="./main_page_image/4529612518.jpg" alt="Image 1">
+                <img src="./main_page_image/4534686677.jpg" alt="Image 2">
+                <img src="./main_page_image/4534693978.jpg" alt="Image 3">
+                <img src="./main_page_image/photoshop.jpg" alt="Image 4">
+            </div>
+            <button class="prev" onclick="moveSlide(-1)">❮</button>
+            <button class="next" onclick="moveSlide(1)">❯</button>
         </div>
     </div>
 
@@ -247,7 +314,7 @@ input::placeholder {
     <div class="footer">
         <a href="#">Cookies</a>
         <a href="#">General Conditions</a>
-        <a href="#">Contact Form</a>
+        <a href="question.html">Contact Form</a>
     </div>
 
     <!-- Script Added Here -->
@@ -328,6 +395,29 @@ input::placeholder {
                 alert("Please enter a search term!");
             }
         }
+        let index = 0; // Initial index for the images
+        const imageSlider = document.getElementById("imageSlider");
+        const totalImages = imageSlider.getElementsByTagName("img").length;
+
+        // Function to move the slider
+        function moveSlide(direction) {
+            index += direction;
+
+            // Loop back to the first image if we go past the last one
+            if (index < 0) {
+                index = totalImages - 1;
+            } else if (index >= totalImages) {
+                index = 0;
+            }
+
+            // Update the transform property to show the correct image
+            imageSlider.style.transform = `translateX(-${index * 100}%)`;
+        }
+
+        // Automatic image scrolling every 3 seconds
+        setInterval(() => {
+            moveSlide(1); // Move forward by 1 image every 3 seconds
+        }, 3000);
     </script>
 </body>
 </html>

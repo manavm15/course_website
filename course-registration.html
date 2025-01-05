@@ -6,12 +6,37 @@
     <title>Course Registration</title>
     <style>
         body {
-            margin: 0;
+            background: linear-gradient(to right, #1e3c72, #2a5298);
             font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            padding: 40px;
             color: white;
             text-align: center;
-            padding: 20px;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            margin: 0 20px;
+            padding: 10px 20px;
+            cursor: pointer;
+            background-color: #333;
+            color: white;
+            border-radius: 5px;
+            font-size: 1.2em;
+            transition: background-color 0.3s ease;
+        }
+
+        .tab:hover {
+            background-color: #555;
+        }
+
+        .tab.active {
+            background-color: #ffcc00;
+            color: #333;
         }
 
         .navbar {
@@ -73,11 +98,12 @@
 </head>
 <body>
 
-    <div class="navbar">
-        <a href="index.html">Home</a>
-        <a href="course-registration.html">Courses</a>
-        <a href="contact.html">Contact</a>
+    <div class="tabs">
+        <div class="tab" onclick="window.location.href='index.html'">Home</div>
+        <div class="tab active" onclick="window.location.href='course-registration.html'">Courses</div>
+        <div class="tab" onclick="window.location.href='question.html'">Contact</div>
     </div>
+
 
     <h1>Explore Our Courses</h1>
     <div class="course-container">

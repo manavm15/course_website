@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contactformulier</title>
+
+  <!-- jQuery (optional if you're using it elsewhere) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+  <!-- intl-tel-input CSS/JS from CDN -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.min.css"
+  />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
+
+  <style>
+      body {
+          background: linear-gradient(to right, #1e3c72, #2a5298);
+          font-family: 'Arial', sans-serif;
+          padding: 40px;
+          color: white;
+          text-align: center;
+      }
+
+      .tabs {
+          display: flex;
+          justify-content: center;
+          margin-bottom: 20px;
+      }
+      .tab {
+          margin: 0 20px;
+          padding: 10px 20px;
+          cursor: pointer;
+          background-color: #333;
+          color: white;
+          border-radius: 5px;
+          font-size: 1.2em;
+          transition: background-color 0.3s ease;
+      }
+      .tab:hover {
+          background-color: #555;
+      }
+      .tab.active {
+          background-color: #ffcc00;
+          color: #333;
+      }
+
+      form {
+          background: rgba(255, 255, 255, 0.9);
+          padding: 30px;
+          border-radius: 10px;
+          width: 50%;
+          margin: 0 auto;
+          box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+          color: #333;
+      }
+
+      label, input, select, textarea {
+          display: block;
+          margin: 10px 0;
+          font-size: 1.2em;
+          color: #333;
+      }
+      input, select, textarea {
+          width: 90%;
+          padding: 10px;
+          border-radius: 5px;
+          border: 1px solid #ccc;
+          background-color: #f9f9f9;
+      }
+      input:focus, select:focus, textarea:focus {
+          border-color: #2a5298;
+          outline: none;
+      }
+
+      .btn-submit {
+          background-color: #ffcc00;
+          padding: 10px 25px;
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;
+          font-size: 1.2em;
+          transition: all 0.3s ease;
+          color: #333;
+      }
+      .btn-submit:hover {
+          background-color: #e6b800;
+          transform: scale(1.1);
+      }
+
+      .hidden {
+          display: none;
+      }
+
+      .dropdown-container {
+          position: relative;
+          display: inline-block;
+          width: 50%;
+          margin: 20px 0;
+      }
+      .dropdown-label {
+          font-size: 1.2em;
+          color: #333;
+      }
+      select {
+          width: 100%;
+          padding: 10px;
+          font-size: 1.2em;
+          border-radius: 5px;
+          border: 1px solid #ccc;
+          background-color: #fff;
+          color: #333;
+          cursor: pointer;
+          transition: all 0.3s ease;
+      }
+
+      #confirmationPopup {
+          margin-top: 20px;
+          color: #fff;
+      }
+
+      /* Suggestions box */
+      .suggestion-box {
+          position: absolute;
+          background: #fff;
+          color: #333;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+          width: 85%;
+          max-width: 400px;
+          margin-top: 2px;
+          z-index: 999;
+          text-align: left;
+      }
+      .suggestion-box div {
+          padding: 8px;
+          cursor: pointer;
+      }
+      .suggestion-box div:hover {
+          background-color: #eee;
+      }
+      .form-group {
+          position: relative;
+      }
+
+      /* Validity Icons */
+      .valid-icon {
+          font-size: 1.2em;
+          margin-left: 8px;
+      }
+  </style>
+</head>
+<body>
+  <!-- Tabs -->
+  <div class="tabs">
+      <div class="tab" onclick="window.location.href='index.html'">Home</div>
+      <div class="tab" onclick="window.location.href='course-registration.html'">Courses</div>
+      <div class="tab active" onclick="window.location.href='question.html'">Contact</div>
+  </div>
+
+  <!-- Form Section -->
+  <h1>Neem contact met ons op</h1>
+  <form id="contactForm">
+      <div class="dropdown-container">
+          <label class="dropdown-label" for="userType">Ik ben een</label>
+          <select id="userType" name="userType" onchange="showFields(this.value)">
+              <option value="student" selected>Student</option>
+              <option value="school">School</option>
+              <option value="organization">Organisatie</option>
+          </select>
+      </div>
+
+      <!-- Student Fields -->
+      <div id="studentFields" class="form-fields">
+          <label for="studentFirstName">Voornaam:</label>
+          <input type="text" id="studentFirstName" name="studentFirstName" required>
+
+          <label for="studentLastName">Achternaam:</label>
+          <input type="text" id="studentLastName" name="studentLastName" required>
+
+          <div class="form-group">
+              <label for="studentEmail">E-mail:</label>
+              <input type="email" id="studentEmail" name="studentEmail" required>
+              <!-- We'll show the check/cross in this same container, or we could add a separate span -->
+              <div id="studentEmailSuggestions" class="suggestion-box hidden"></div>
+              <span id="studentEmailStatus" class="valid-icon"></span>
+          </div>
+
+          <div class="form-group">
+              <label for="studentPhone">Telefoonnummer:</label>
+              <input type="tel" id="studentPhone" name="studentPhone" required>
+              <span id="studentPhoneStatus" class="valid-icon"></span>
+          </div>
+
+          <label for="studentMessage">Bericht:</label>
+          <textarea id="studentMessage" name="studentMessage" required></textarea>
+      </div>
+
+      <!-- School Fields -->
+      <div id="schoolFields" class="form-fields hidden">
+          <label for="schoolFirstName">Voornaam:</label>
+          <input type="text" id="schoolFirstName" name="schoolFirstName">
+
+          <label for="schoolLastName">Achternaam:</label>
+          <input type="text" id="schoolLastName" name="schoolLastName">
+
+          <label for="schoolName">Schoolnaam:</label>
+          <input type="text" id="schoolName" name="schoolName">
+
+          <div class="form-group">
+              <label for="schoolEmail">School E-mail:</label>
+              <input type="email" id="schoolEmail" name="schoolEmail">
+              <div id="schoolEmailSuggestions" class="suggestion-box hidden"></div>
+              <span id="schoolEmailStatus" class="valid-icon"></span>
+          </div>
+
+          <div class="form-group">
+              <label for="schoolPhone">School Telefoonnummer:</label>
+              <input type="tel" id="schoolPhone" name="schoolPhone">
+              <span id="schoolPhoneStatus" class="valid-icon"></span>
+          </div>
+
+          <label for="schoolMessage">Bericht:</label>
+          <textarea id="schoolMessage" name="schoolMessage"></textarea>
+      </div>
+
+      <!-- Organization Fields -->
+      <div id="organizationFields" class="form-fields hidden">
+          <label for="organizationFirstName">Voornaam:</label>
+          <input type="text" id="organizationFirstName" name="organizationFirstName">
+
+          <label for="organizationLastName">Achternaam:</label>
+          <input type="text" id="organizationLastName" name="organizationLastName">
+
+          <label for="organizationName">Organisatienaam:</label>
+          <input type="text" id="organizationName" name="organizationName">
+
+          <div class="form-group">
+              <label for="organizationEmail">Organisatie E-mail:</label>
+              <input type="email" id="organizationEmail" name="organizationEmail">
+              <div id="organizationEmailSuggestions" class="suggestion-box hidden"></div>
+              <span id="organizationEmailStatus" class="valid-icon"></span>
+          </div>
+
+          <div class="form-group">
+              <label for="organizationPhone">Organisatie Telefoonnummer:</label>
+              <input type="tel" id="organizationPhone" name="organizationPhone">
+              <span id="organizationPhoneStatus" class="valid-icon"></span>
+          </div>
+
+          <label for="organizationMessage">Bericht:</label>
+          <textarea id="organizationMessage" name="organizationMessage"></textarea>
+      </div>
+
+      <button type="submit" class="btn-submit">Verstuur Bericht</button>
+  </form>
+
+  <div id="confirmationPopup" class="hidden">
+      <p id="confirmationMessage"></p>
+  </div>
+
+  <script>
+      /* ================== TOGGLE FIELDS ================== */
+      function showFields(type) {
+          document.getElementById("studentFields").classList.add("hidden");
+          document.getElementById("schoolFields").classList.add("hidden");
+          document.getElementById("organizationFields").classList.add("hidden");
+
+          if (type === "student") {
+              document.getElementById("studentFields").classList.remove("hidden");
+          } else if (type === "school") {
+              document.getElementById("schoolFields").classList.remove("hidden");
+          } else if (type === "organization") {
+              document.getElementById("organizationFields").classList.remove("hidden");
+          }
+      }
+      // Default to student
+      showFields("student");
+
+      /* ================== EMAIL VALIDATION + SUGGESTIONS ================== */
+      const emailDomains = ["gmail.com", "hotmail.com", "aol.com", "yahoo.com", "live.com"];
+
+      
+      
+      function setupEmailField(inputId, suggestionBoxId, statusId) {
+    const inputEl = document.getElementById(inputId);
+    const boxEl = document.getElementById(suggestionBoxId);
+    const statusEl = document.getElementById(statusId);
+
+    inputEl.addEventListener("input", function() {
+        const val = inputEl.value.trim();
+
+        // Show check/cross if not empty
+        if (!val) {
+        statusEl.innerHTML = "";
+        } else if (/^\S+@\S+\.\S+$/.test(val)) {
+        statusEl.innerHTML = `<span style="color: green;">&#10004;</span>`;
+        } else {
+        statusEl.innerHTML = `<span style="color: red;">&#10008;</span>`;
+        }
+
+        // If typed '@' or empty => hide suggestions
+        if (!val || val.includes('@')) {
+        boxEl.innerHTML = "";
+        boxEl.classList.add("hidden");
+        return;
+        }
+
+        // Otherwise, generate domain suggestions
+        const emailDomains = ["gmail.com", "hotmail.com", "aol.com", "yahoo.com", "live.com"];
+        boxEl.innerHTML = "";
+        emailDomains.forEach(domain => {
+        const suggestion = document.createElement("div");
+        suggestion.textContent = val + "@" + domain;
+        
+        // Use mousedown so it fires before blur
+        suggestion.addEventListener("mousedown", function(e) {
+            e.preventDefault(); // prevents losing focus
+            inputEl.value = suggestion.textContent;
+            // Re-check
+            if (/^\S+@\S+\.\S+$/.test(inputEl.value)) {
+            statusEl.innerHTML = `<span style="color: green;">&#10004;</span>`;
+            } else {
+            statusEl.innerHTML = `<span style="color: red;">&#10008;</span>`;
+            }
+            // Clear suggestions
+            boxEl.innerHTML = "";
+            boxEl.classList.add("hidden");
+        });
+        
+        boxEl.appendChild(suggestion);
+        });
+        boxEl.classList.remove("hidden");
+    });
+
+    // (Optional) Clear suggestions on blur with a short delay
+    inputEl.addEventListener("blur", function() {
+        setTimeout(() => {
+        boxEl.innerHTML = "";
+        boxEl.classList.add("hidden");
+        }, 150);
+    });
+    }
+
+      // Student
+      setupEmailField("studentEmail", "studentEmailSuggestions", "studentEmailStatus");
+      // School
+      setupEmailField("schoolEmail", "schoolEmailSuggestions", "schoolEmailStatus");
+      // Organization
+      setupEmailField("organizationEmail", "organizationEmailSuggestions", "organizationEmailStatus");
+
+      /* ================== PHONE VALIDATION (✔/✖), AUTO COUNTRY CHANGE ================== */
+      function showPhoneValidity(val, iti, statusEl) {
+          const numberTrimmed = val.trim();
+          if (!numberTrimmed) {
+              // No input => no icon
+              statusEl.innerHTML = "";
+              return;
+          }
+          const isValid = iti.isValidNumber();
+          statusEl.innerHTML = isValid
+            ? `<span style="color: green;">&#10004;</span>`
+            : `<span style="color: red;">&#10008;</span>`;
+      }
+
+      function setupPhoneField(inputId, statusId) {
+          const phoneInput = document.getElementById(inputId);
+          const phoneStatus = document.getElementById(statusId);
+
+          const iti = window.intlTelInput(phoneInput, {
+              initialCountry: "nl",
+              preferredCountries: ["us", "be", "de"],
+              nationalMode: false,
+              autoHideDialCode: false,
+              separateDialCode: false,
+              utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
+          });
+          function setupPhoneField(inputId, statusId) {
+  const phoneInput = document.getElementById(inputId);
+  const phoneStatus = document.getElementById(statusId);
+
+  const iti = window.intlTelInput(phoneInput, {
+    initialCountry: "nl",
+    preferredCountries: ["us", "be", "de"],
+    nationalMode: false,
+    autoHideDialCode: false,
+    separateDialCode: false,
+    utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
+  });
+
+  function validatePhone() {
+    const val = phoneInput.value.trim();
+
+    // If empty => do NOT show a cross
+    if (val === "") {
+      phoneStatus.innerHTML = "";
+      return;
+    }
+
+    // If not empty, check validity
+    const isValid = iti.isValidNumber();
+    phoneStatus.innerHTML = isValid
+      ? `<span style="color: green;">&#10004;</span>`   // check mark
+      : `<span style="color: red;">&#10008;</span>`;    // red cross
+  }
+
+  // Validate on input
+  phoneInput.addEventListener("input", validatePhone);
+
+  // Validate on country change (also fires if user types a new dial code)
+  phoneInput.addEventListener("countrychange", validatePhone);
+
+  // Optional: don’t do an initial check (or do it if you prefer)
+  // validatePhone();
+}
+          function validatePhone() {
+              showPhoneValidity(phoneInput.value, iti, phoneStatus);
+          }
+
+          // Validate on input
+          phoneInput.addEventListener("input", validatePhone);
+
+          // Validate on countrychange
+          phoneInput.addEventListener("countrychange", validatePhone);
+
+          // Initial check if desired
+        //   validatePhone();
+      }
+
+      // Student
+      setupPhoneField("studentPhone", "studentPhoneStatus");
+      // School
+      setupPhoneField("schoolPhone", "schoolPhoneStatus");
+      // Organization
+      setupPhoneField("organizationPhone", "organizationPhoneStatus");
+
+      /* ================== ENTER KEY => SUBMIT ON MESSAGE FIELD ================== */
+      const messageFields = document.querySelectorAll("#studentMessage, #schoolMessage, #organizationMessage");
+      messageFields.forEach((field) => {
+          field.addEventListener("keydown", (event) => {
+              if (event.key === "Enter") {
+                  event.preventDefault(); // Prevent new line
+                  document.getElementById("contactForm").dispatchEvent(new Event("submit"));
+              }
+          });
+      });
+
+      /* ================== FORM SUBMISSION ================== */
+      document.getElementById("contactForm").addEventListener("submit", function (event) {
+          event.preventDefault();
+
+          const userType = document.getElementById("userType").value;
+          const formData = new FormData(this);
+          let payload = { userType };
+
+          if (userType === "student") {
+              payload.firstName = formData.get("studentFirstName");
+              payload.lastName = formData.get("studentLastName");
+              payload.email = formData.get("studentEmail");
+              payload.phone = formData.get("studentPhone");
+              payload.message = formData.get("studentMessage");
+          } else if (userType === "school") {
+              payload.firstName = formData.get("schoolFirstName");
+              payload.lastName = formData.get("schoolLastName");
+              payload.schoolName = formData.get("schoolName");
+              payload.email = formData.get("schoolEmail");
+              payload.phone = formData.get("schoolPhone");
+              payload.message = formData.get("schoolMessage");
+          } else if (userType === "organization") {
+              payload.firstName = formData.get("organizationFirstName");
+              payload.lastName = formData.get("organizationLastName");
+              payload.organizationName = formData.get("organizationName");
+              payload.email = formData.get("organizationEmail");
+              payload.phone = formData.get("organizationPhone");
+              payload.message = formData.get("organizationMessage");
+          }
+
+          console.log("Sending data to server:", payload);
+
+          // Simulate success
+          setTimeout(() => {
+              document.getElementById("confirmationMessage").textContent =
+                "Bedankt voor het contacteren. We zullen zo snel mogelijk contact met u opnemen.";
+              document.getElementById("confirmationPopup").classList.remove("hidden");
+
+              setTimeout(function () {
+                  document.getElementById("contactForm").reset();
+                  document.getElementById("confirmationPopup").classList.add("hidden");
+                  document.getElementById("userType").value = "student";
+                  showFields("student");
+              }, 3000);
+          }, 500);
+      });
+  </script>
+</body>
+</html>

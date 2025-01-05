@@ -5,11 +5,16 @@ const nodemailer = require("nodemailer");
 const cors = require("cors");
 
 const app = express();
-const PORT = 3000;
+const PORT = 5000;
 
 // Middleware
 app.use(cors());
 app.use(bodyParser.json());
+
+// Test route to check server connectivity
+app.get("/test", (req, res) => {
+  res.send("Test route is working!");
+});
 
 // Database setup (in-memory database for testing)
 const db = new sqlite3.Database(":memory:", (err) => {
@@ -38,24 +43,24 @@ const db = new sqlite3.Database(":memory:", (err) => {
 
 // Function to send email
 function sendEmail(emailData, callback) {
-  const smtpTransport = nodemailer.createTransport( {
+  const smtpTransport = nodemailer.createTransport({
     host: "smtp.gmail.com",
-    port: 25,
+    port: 465,
     secure: true,
     auth: {
-       type: "OAuth2",
-        user: "manavamishra@gmail.com", // Your Gmail address
-        // clientId: "931206095614-c3hu4lvvh3srsnkclo2c2kn8o1r2q9nq.apps.googleusercontent.com", // OAuth2 Client ID
-        // clientSecret: "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", // OAuth2 Client Secret
-        // refreshToken: "1//04Rk_4DIEuDZyCgYIARAAGAQSNwF-L9Iro3KBoHGivfixXWXzaOh74zeq8q54zhkkEmtzHiImIz_II_gNsMN4gDmTCVi2Tqn-KXY", // OAuth2 Refresh Token
-      },
-      tls: {
-          rejectUnauthorized: false, // Bypass certificate issues for testing
-      },
+      type: "OAuth2",
+      user: "manavamishra@gmail.com", // Your Gmail address
+      clientId: "931206095614-c3hu4lvvh3srsnkclo2c2kn8o1r2q9nq.apps.googleusercontent.com", // OAuth2 Client ID
+      clientSecret: "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", // OAuth2 Client Secret
+      refreshToken: "1//04RgbbZuug39fCgYIARAAGAQSNwF-L9Ir8gXd0oCeWUW9q8kFzcpEJdLPOzEemdkCLybEn4_53NbFwBUVEYCcedsX5nIC4Ahb03c", // Use the new OAuth2 refresh token here
+    },
+    tls: {
+      rejectUnauthorized: false, // Bypass certificate issues for testing
+    },
   });
 
   const mailOptions = {
-    from: "manavdmishra@gmail.com",
+    from: emailData.from,
     to: emailData.to,
     subject: emailData.subject,
     generateTextFromHTML: true,
@@ -70,6 +75,8 @@ function sendEmail(emailData, callback) {
 
 // Endpoint to handle form submission
 app.post("/submit-form", (req, res) => {
+  console.log("Received data:", req.body); // Log received data
+
   const {
     salutation,
     firstName,
@@ -108,14 +115,14 @@ app.post("/submit-form", (req, res) => {
     function (err) {
       if (err) {
         console.error("Database error:", err.message);
-        return res.status(500).send("Database error");
+        return res.status(500).json({ error: "Database error" });
       }
 
       console.log("Data stored in database:", req.body);
 
       // Prepare email content
       const emailData = {
-        to: email, // Send confirmation email to the user's email
+        to: email,
         subject: "Registration Confirmation",
         html: `
                 <h3>Thank you for your registration!</h3>
@@ -140,10 +147,10 @@ app.post("/submit-form", (req, res) => {
       sendEmail(emailData, (error, response) => {
         if (error) {
           console.error("Error sending email:", error.message);
-          return res.status(500).send("Failed to send email.");
+          return res.status(500).json({ error: "Failed to send email." });
         }
         console.log("Email sent successfully:", response);
-        res.status(200).send("Data stored and email sent successfully.");
+        res.status(200).json({ message: "Data stored and email sent successfully." });
       });
     }
   );
@@ -154,7 +161,7 @@ app.get("/records", (req, res) => {
   db.all("SELECT * FROM users", [], (err, rows) => {
     if (err) {
       console.error("Error retrieving records:", err.message);
-      res.status(500).send("Error retrieving records");
+      res.status(500).json({ error: "Error retrieving records" });
     } else {
       res.json(rows);
     }
