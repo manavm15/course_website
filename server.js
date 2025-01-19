@@ -5,10 +5,10 @@ const nodemailer = require("nodemailer");
 const cors = require("cors");
 
 const app = express();
-const PORT = 5000;
+const PORT = 8080;
 
 // Middleware
-app.use(cors());
+app.use(cors({ origin: "*" }));
 app.use(bodyParser.json());
 
 // Test route to check server connectivity
@@ -25,6 +25,7 @@ const db = new sqlite3.Database(":memory:", (err) => {
     db.run(`
         CREATE TABLE users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
+            course TEXT,
             salutation TEXT,
             firstName TEXT,
             lastName TEXT,
@@ -78,6 +79,7 @@ app.post("/submit-form", (req, res) => {
   console.log("Received data:", req.body); // Log received data
 
   const {
+    course,
     salutation,
     firstName,
     lastName,
@@ -93,13 +95,14 @@ app.post("/submit-form", (req, res) => {
 
   // Store data in the database
   const sql = `
-        INSERT INTO users (salutation, firstName, lastName, email, birthdate, postalCode, address, houseNumber, city, paymentTerms, iban)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        INSERT INTO users (course, salutation, firstName, lastName, email, birthdate, postalCode, address, houseNumber, city, paymentTerms, iban)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
 
   db.run(
     sql,
     [
+      course,
       salutation,
       firstName,
       lastName,
@@ -129,6 +132,7 @@ app.post("/submit-form", (req, res) => {
                 <p>Here are the details you provided:</p>
                 <table border="1" cellpadding="5" cellspacing="0">
                     <tr><th>Field</th><th>Value</th></tr>
+                    <tr><td>Selected Course</td><td>${course}</td></tr>
                     <tr><td>Salutation</td><td>${salutation}</td></tr>
                     <tr><td>First Name</td><td>${firstName}</td></tr>
                     <tr><td>Last Name</td><td>${lastName}</td></tr>
@@ -170,5 +174,5 @@ app.get("/records", (req, res) => {
 
 // Start server
 app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+  console.log(`Server running on http://127.0.0.1:${PORT}`);
 });

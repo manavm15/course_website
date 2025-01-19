@@ -1,476 +1,404 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Purchase Course</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Purchase Course</title>
+    <!-- Include jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!-- Include CSS for select2 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css">
+    <!-- Include CSS for intl-tel-input -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.min.css">
 
-  <!-- jQuery (necessary for select2) -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-  <!-- select2 CSS (optional) -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css">
-  <!-- intl-tel-input CSS -->
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.min.css"
-  />
+    <style>
+        body {
+            background: linear-gradient(to right, #1e3c72, #2a5298);
+            font-family: 'Arial', sans-serif;
+            padding: 40px;
+            color: white;
+            text-align: center;
+        }
 
-  <style>
-    body {
-      background: linear-gradient(to right, #1e3c72, #2a5298);
-      font-family: 'Arial', sans-serif;
-      padding: 40px;
-      color: white;
-      text-align: center;
-    }
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
 
-    .tabs {
-      display: flex;
-      justify-content: center;
-      margin-bottom: 20px;
-    }
-    .tab {
-      margin: 0 20px;
-      padding: 10px 20px;
-      cursor: pointer;
-      background-color: #333;
-      color: white;
-      border-radius: 5px;
-      font-size: 1.2em;
-      transition: background-color 0.3s ease;
-    }
-    .tab:hover {
-      background-color: #555;
-    }
-    .tab.active {
-      background-color: #ffcc00;
-      color: #333;
-    }
+        .tab {
+            margin: 0 20px;
+            padding: 10px 20px;
+            cursor: pointer;
+            background-color: #333;
+            color: white;
+            border-radius: 5px;
+            font-size: 1.2em;
+            transition: background-color 0.3s ease;
+        }
 
-    form {
-      background: rgba(255, 255, 255, 0.9);
-      width: 50%;
-      margin: 0 auto;
-      padding: 30px;
-      border-radius: 10px;
-      text-align: left;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-      color: #333;
-    }
+        .tab:hover {
+            background-color: #555;
+        }
 
-    label, input, select {
-      display: block;
-      margin: 10px 0;
-      font-size: 1.2em;
-      color: #333;
-    }
-    input, select {
-      width: 90%;
-      padding: 10px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-      background-color: #f9f9f9;
-      color: #333;
-    }
-    input:focus, select:focus {
-      border-color: #2a5298;
-      outline: none;
-    }
+        .tab.active {
+            background-color: #ffcc00;
+            color: #333;
+        }
 
-    .btn-submit {
-      background-color: #ffcc00;
-      padding: 10px 25px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 1.2em;
-      transition: all 0.3s ease;
-      color: #333;
-      margin-top: 10px;
-    }
-    .btn-submit:hover {
-      background-color: #e6b800;
-      transform: scale(1.1);
-    }
+        form {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 10px;
+            width: 70%;
+            margin: 0 auto;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            color: #333;
+            text-align: left;
+        }
 
-    /* Valid/invalid icons */
-    .validity-icon {
-      margin-left: 8px;
-      font-size: 1.3em;
-    }
+        .form-field {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 15px;
+        }
 
-    .suggestion-box {
-      position: absolute;
-      background: #fff;
-      color: #333;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      width: 85%;
-      max-width: 400px;
-      margin-top: 2px;
-      z-index: 999;
-      text-align: left;
-    }
-    .suggestion-box div {
-      padding: 8px;
-      cursor: pointer;
-    }
-    .suggestion-box div:hover {
-      background-color: #eee;
-    }
+        .form-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+        }
 
-    /* New Style for Error Messages */
-    .error-message {
-      color: red;
-      font-size: 0.9em;
-      margin-top: -10px;
-      margin-bottom: 10px;
-      height: 18px; /* to keep space reserved even if empty */
-    }
-  </style>
+        .form-row > .form-field {
+            flex: 1;
+        }
+
+        label {
+            font-size: 1em;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        input:focus, select:focus {
+            border-color: #2a5298;
+            outline: none;
+        }
+
+        .btn-submit {
+            background-color: #ffcc00;
+            padding: 10px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.2em;
+            transition: all 0.3s ease;
+            color: #333;
+            margin-top: 10px;
+            width: 100%;
+        }
+
+        .btn-submit:hover {
+            background-color: #e6b800;
+            transform: scale(1.1);
+        }
+
+        .validity-icon {
+            margin-left: 8px;
+            font-size: 1.3em;
+        }
+
+        .validity-icon.correct {
+            color: green;
+        }
+
+        .validity-icon.incorrect {
+            color: red;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 0.9em;
+            margin-top: 5px;
+            height: 15px;
+        }
+    </style>
 </head>
 <body>
-  <!-- Navigation Tabs -->
-  <div class="tabs">
-    <div class="tab" onclick="window.location.href='index.html'">Home</div>
-    <div class="tab" onclick="window.location.href='course-registration.html'">Courses</div>
-    <div class="tab active" onclick="window.location.href='contact.html'">Contact</div>
-  </div>
+    <!-- Navigation Tabs -->
+    <div class="tabs">
+        <div class="tab" onclick="window.location.href='index.html'">Home</div>
+        <div class="tab" onclick="window.location.href='course-registration.html'">Courses</div>
+        <div class="tab" onclick="window.location.href='contact.html'">Contact</div>
+        <div class="tab active" onclick="window.location.href='purchase.html'">Payment</div>
+    </div>
 
-  <!-- Contact Section -->
-  <div id="contact" class="section active-section">
-    <h1>Course Registration</h1>
-    <!-- Where we show "You are registering for: [Course]" -->
-    <p id="selectedCourseText"></p>
+    <!-- Contact Section -->
+    <div id="contact" class="section active-section">
+        <h1>Course Registration</h1>
+        <form id="purchaseForm">
+            <!-- Selected Course -->
+            <div class="form-field">
+                <label for="selectedCourse"><strong>Geselecteerde cursus:</strong></label>
+                <input type="text" id="selectedCourse" name=selectedCourse readonly>
+            </div>
+            <div class="form-field">
+                <label for="salutation">Aanhef:</label>
+                <select id="salutation" required>
+                    <option value="">Selecteer</option>
+                    <option value="Dhr.">Dhr.</option>
+                    <option value="Mw.">Mw.</option>
+                </select>
+            </div>
 
-    <form id="purchaseForm">
-      <!-- The “Selected Course” field (read-only) -->
-      <div class="form-field">
-        <label for="selectedCourse">Geselecteerde Cursus:</label>
-        <input
-          type="text"
-          id="selectedCourse"
-          placeholder="Selected course"
-          readonly
-        />
-      </div>
+            <!-- Name Fields -->
+            <div class="form-row">
+                <div class="form-field">
+                    <label for="firstName">Voornaam:</label>
+                    <input type="text" id="firstName" placeholder="Voornaam" required>
+                </div>
+                <div class="form-field">
+                    <label for="MiddleName">Tussenvoegsel:</label>
+                    <input type="text" id="MiddleName" placeholder="Tussenvoegsel">
+                </div>
+                <div class="form-field">
+                    <label for="lastName">Achternaam:</label>
+                    <input type="text" id="lastName" placeholder="Achternaam" required>
+                </div>
+            </div>
 
-      <div class="form-field">
-        <label for="salutation">Aanhef:</label>
-        <select id="salutation" required>
-          <option value="">--Selecteer--</option>
-          <option value="Dhr.">Dhr.</option>
-          <option value="Mw.">Mw.</option>
-        </select>
-      </div>
+            <!-- Email Fields -->
+            <div class="form-row">
+                <div class="form-field">
+                    <label for="email">E-mail:</label>
+                    <input type="email" id="email" placeholder="E-mail" required>
+                    <span class="validity-icon" id="emailIcon"></span>
+                </div>
+                <div class="form-field">
+                    <label for="confirmEmail">Bevestig E-mail:</label>
+                    <input type="email" id="confirmEmail" placeholder="Bevestig E-mail" required>
+                    <span class="validity-icon" id="emailMatchIcon"></span>
+                </div>
+            </div>
 
-      <div class="form-field">
-        <label for="firstName">Voornaam:</label>
-        <input type="text" id="firstName" placeholder="Vul uw voornaam in" required />
-      </div>
+            <!-- Phone -->
+            <div class="form-field">
+                <label for="phone">Telefoonnummer:</label>
+                <input type="tel" id="phone" placeholder="Telefoonnummer" required>
+                <span class="validity-icon" id="phoneIcon"></span>
+            </div>
 
-      <div class="form-field">
-        <label for="MiddleName">Tussenvoegsel:</label>
-        <input type="text" id="MiddleName" placeholder="Eventueel tussenvoegsel" />
-      </div>
+            <!-- Address -->
+            <div class="form-row">
+                <div class="form-field">
+                    <label for="postalCode">Postcode:</label>
+                    <input type="text" id="postalCode" placeholder="Postcode" required>
+                </div>
+                <div class="form-field">
+                    <label for="houseNumber">Huisnummer:</label>
+                    <input type="text" id="houseNumber" placeholder="Huisnummer" required>
+                </div>
+            </div>
+            <div class="form-field">
+                <label for="address">Straatnaam:</label>
+                <input type="text" id="address" placeholder="Straatnaam" required>
+            </div>
+            <div class="form-field">
+                <label for="citySelect">Stad:</label>
+                <select id="citySelect" required>
+                    <option value="">Selecteer een stad</option>
+                </select>
+            </div>
 
-      <div class="form-field">
-        <label for="lastName">Achternaam:</label>
-        <input type="text" id="lastName" placeholder="Vul uw achternaam in" required />
-      </div>
+            <!-- Payment Terms -->
+            <div class="form-field">
+                <label for="paymentTerms">Betaaltermijnen:</label>
+                <select id="paymentTerms" required>
+                    <option value="">Selecteer betaaltermijnen</option>
+                    <option value="ineens">Ineens (One-time payment)</option>
+                    <option value="2_months">2 maandtermijnen</option>
+                </select>
+            </div>
 
-      <div class="form-field" style="position: relative;">
-        <label for="phone">Telefoonnummer:</label>
-        <div style="position: relative;">
-          <input type="tel" id="phone" placeholder="Vul uw telefoonnummer in" required />
-          <span id="phoneIcon" class="validity-icon"></span>
-        </div>
-      </div>
+            <!-- IBAN -->
+            <div class="form-field">
+                <label for="iban-number">IBAN:</label>
+                <input type="text" id="iban-number" placeholder="NL00 BANK 0000 0000 00" required>
+                <span class="validity-icon" id="ibanIcon"></span>
+            </div>
 
-      <div class="form-field">
-        <label for="email">E-mail:</label>
-        <div style="position: relative;">
-          <input type="email" id="email" placeholder="Vul uw e-mail in" required />
-          <span id="emailIcon" class="validity-icon"></span>
-        </div>
-      </div>
+            <!-- Agreement Checkbox -->
+            <div class="form-field">
+                <input type="checkbox" id="agreeTerms" required>
+                <label for="agreeTerms">Ik ga akkoord met de <a href="terms.html" target="_blank" style="color: #ffcc00;">algemene voorwaarden</a>.</label>
+            </div>
 
-      <div class="form-field">
-        <label for="confirmEmail">Bevestig E-mail:</label>
-        <div style="position: relative;">
-          <input type="email" id="confirmEmail" placeholder="Herhaal uw e-mail" required />
-          <span id="emailMatchIcon" class="validity-icon"></span>
-        </div>
-      </div>
+            <button type="submit" class="btn-submit">Verzenden</button>
+        </form>
+    </div>
 
-      <div class="form-field">
-        <label for="postalCode">Postcode:</label>
-        <input type="text" id="postalCode" placeholder="Vul de postcode in (1234 AB)" required />
-      </div>
-
-      <div class="form-field">
-        <label for="houseNumber">Huisnummer:</label>
-        <input type="text" id="houseNumber" placeholder="Vul het huisnummer in" required />
-      </div>
-
-      <div class="form-field">
-        <label for="address">Straatnaam:</label>
-        <input type="text" id="address" placeholder="Vul de straatnaam in" required />
-      </div>
-
-      <div class="form-field">
-        <label for="citySelect">Stad:</label>
-        <select id="citySelect" required>
-          <option value="">Selecteer een stad</option>
-        </select>
-      </div>
-      <button type="submit" class="btn-submit" id="btn-submit">Naar Betaal</button>
-    </form>
-  </div>
-
-  <!-- Scripts -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/libphonenumber-js/1.9.16/libphonenumber-js.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
-
-  <script>
-    /********************************************************
-     * 1) Use sessionStorage, remove data if user leaves
-     ********************************************************/
-    let submitted = false; // We'll mark true if form is successfully submitted
-
-    function handlePageHide(event) {
-      if (!submitted) {
-        sessionStorage.removeItem("userDetails");
-      }
-    }
-    window.addEventListener("pagehide", handlePageHide);
-
-    /********************************************************
-     * 2) Rollback prompt (beforeunload event)
-     ********************************************************/
-    function beforeUnloadHandler(e) {
-      if (!submitted) { // Only prompt if not submitted
-        e.preventDefault();
-        e.returnValue = "Weet u zeker dat u deze pagina wilt verlaten? Uw gegevens gaan verloren als u niet indient.";
-      }
-    }
-    window.addEventListener("beforeunload", beforeUnloadHandler);
-
-    /********************************************************
-     * 3) Populate city dropdown
-     ********************************************************/
-    const citySelect = document.getElementById("citySelect");
-    const cities = [
-      "Amsterdam", "Rotterdam", "Den Haag", "Utrecht", "Eindhoven",
-      "Groningen", "Almere", "Breda", "Nijmegen", "Enschede",
-      "Haarlem", "Arnhem", "Zaanstad", "Amersfoort", "Apeldoorn"
-    ];
-    cities.forEach(city => {
-      const option = document.createElement("option");
-      option.value = city;
-      option.textContent = city;
-      citySelect.appendChild(option);
-    });
-
-    /********************************************************
-     * 4) Show selected course from URL param
-     ********************************************************/
-    const urlParams = new URLSearchParams(window.location.search);
-    const courseName = urlParams.get('course') || "";
-    document.getElementById("selectedCourse").value = courseName;
-    document.getElementById("selectedCourseText").textContent = 
-      "You are registering for: " + (courseName || "No course selected");
-
-    /********************************************************
-     * 5) intl-tel-input for phone
-     ********************************************************/
-    const phoneInput = document.getElementById("phone");
-    const phoneIcon = document.getElementById("phoneIcon");
-    const iti = window.intlTelInput(phoneInput, {
-      initialCountry: "NL",
-      utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
-    });
-    phoneInput.addEventListener("input", () => {
-      const val = phoneInput.value.trim();
-      if (!val) {
-        phoneIcon.textContent = "";
-        return;
-      }
-      if (iti.isValidNumber()) {
-        phoneIcon.textContent = "✔";
-        phoneIcon.style.color = "green";
-      } else {
-        phoneIcon.textContent = "✖";
-        phoneIcon.style.color = "red";
-      }
-    });
-
-    /********************************************************
-     * 6) Email validity icons
-     ********************************************************/
-    function isValidEmail(str) {
-      return /^\S+@\S+\.\S+$/.test(str.trim());
-    }
-    const emailInput = document.getElementById("email");
-    const emailIcon = document.getElementById("emailIcon");
-    emailInput.addEventListener("input", () => {
-      const val = emailInput.value.trim();
-      if (!val) {
-        emailIcon.textContent = "";
-        return;
-      }
-      if (isValidEmail(val)) {
-        emailIcon.textContent = "✔";
-        emailIcon.style.color = "green";
-      } else {
-        emailIcon.textContent = "✖";
-        emailIcon.style.color = "red";
-      }
-    });
-
-    // Confirm Email
-    const confirmEmailInput = document.getElementById("confirmEmail");
-    const emailMatchIcon = document.getElementById("emailMatchIcon");
-    confirmEmailInput.addEventListener("input", () => {
-      const mainVal = emailInput.value.trim();
-      const cVal = confirmEmailInput.value.trim();
-      if (!cVal) {
-        emailMatchIcon.textContent = "";
-        return;
-      }
-      if (mainVal && mainVal === cVal) {
-        emailMatchIcon.textContent = "✔";
-        emailMatchIcon.style.color = "green";
-      } else {
-        emailMatchIcon.textContent = "✖";
-        emailMatchIcon.style.color = "red";
-      }
-    });
-
-    /********************************************************
-     * 7) Step Reveal
-     ********************************************************/
-    document.addEventListener("DOMContentLoaded", () => {
-      const fieldsInOrder = [
-        "selectedCourse",
-        "salutation",
-        "firstName",
-        "MiddleName",
-        "lastName",
-        "phone",
-        "email",
-        "confirmEmail",
-        "postalCode",
-        "houseNumber",
-        "address",
-        "citySelect"
-      ];
-
-      // Hide fields after the first 7 if desired
-      fieldsInOrder.forEach((fid, idx) => {
-        if (idx > 6) {
-          const el = document.getElementById(fid);
-          el.parentElement.style.display = "none";
-        }
-      });
-
-      function checkFieldValidity(fid) {
-        const el = document.getElementById(fid);
-        const val = el.value.trim();
-        if (!val) return false;
-
-        switch (fid) {
-          case "phone":
-            return iti.isValidNumber();
-          case "email":
-            return isValidEmail(val);
-          case "confirmEmail":
-            return val === emailInput.value.trim();
-          default:
-            return el.checkValidity();
-        }
-      }
-
-      function revealNext(idx) {
-        if (idx + 1 < fieldsInOrder.length) {
-          const nextID = fieldsInOrder[idx + 1];
-          const nextEl = document.getElementById(nextID);
-          nextEl.parentElement.style.display = "block";
-        }
-      }
-
-      fieldsInOrder.forEach((fid, idx) => {
-        const el = document.getElementById(fid);
-        el.addEventListener("input", () => {
-          if (checkFieldValidity(fid)) {
-            revealNext(idx);
-          }
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/libphonenumber-js/1.9.16/libphonenumber-js.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
+    <script>
+        // Populate cities
+        const cities = ["Amsterdam", "Rotterdam", "Den Haag", "Utrecht", "Eindhoven"];
+        const citySelect = document.getElementById("citySelect");
+        cities.forEach(city => {
+            const option = document.createElement("option");
+            option.value = city;
+            option.textContent = city;
+            citySelect.appendChild(option);
         });
-      });
-    });
 
-    /********************************************************
-     * 8) Submit form -> remove rollback, store in session
-     ********************************************************/
-    document.getElementById("purchaseForm").addEventListener("submit", function(e) {
-      e.preventDefault();
+         // Get the selected course from the URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const courseName = urlParams.get("course") || "Geen cursus geselecteerd";
 
-      // Basic gather
-      const scourse = document.getElementById("selectedCourse").value.trim();
-      const salutation = document.getElementById("salutation").value;
-      const firstName = document.getElementById("firstName").value.trim();
-      const middleName = document.getElementById("MiddleName").value.trim();
-      const lastName = document.getElementById("lastName").value.trim();
-      const phoneVal = phoneInput.value.trim();
-      const emailVal = emailInput.value.trim();
-      const confirmVal = confirmEmailInput.value.trim();
-      const postalCode = document.getElementById("postalCode").value.trim();
-      const address = document.getElementById("address").value.trim();
-      const houseNumber = document.getElementById("houseNumber").value.trim();
-      const city = document.getElementById("citySelect").value.trim();
+        document.addEventListener("DOMContentLoaded", function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const courseName = urlParams.get("course");
+
+            if (!courseName) {
+                // Redirect to course registration page if no course is selected
+                alert("No course selected. Redirecting to course registration.");
+                window.location.href = "course-registration.html";
+                return; // Stop further script execution
+            }
+
+            // If course is valid, prefill the course name
+            document.getElementById("selectedCourse").value = courseName;
+        });
+        // Prefill the read-only input field
+
+        document.getElementById("selectedCourse").value = courseName;
 
 
-      // Basic checks
-      if (!scourse || !salutation || !firstName || !lastName 
-        || !phoneVal || !emailVal || !confirmVal
-        || !postalCode || !houseNumber || !address || !city) {
-        alert("Please fill out all required fields.");
-        return;
-      }
-      if (!iti.isValidNumber()) {
-        alert("Telefoonnummer is ongeldig!");
-        return;
-      }
-      if (confirmVal !== emailVal) {
-        alert("E-mails komen niet overeen!");
-        return;
-      }
+        // Phone input
+        const phoneInput = document.getElementById("phone");
+        const phoneIcon = document.getElementById("phoneIcon");
+        const iti = intlTelInput(phoneInput, {
+            initialCountry: "nl",
+            utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
+        });
 
-      // Remove the beforeunload handler
-      window.removeEventListener("beforeunload", beforeUnloadHandler);
+        phoneInput.addEventListener("input", () => {
+            phoneIcon.textContent = iti.isValidNumber() ? "✔" : "✖";
+            phoneIcon.className = iti.isValidNumber() ? "validity-icon correct" : "validity-icon incorrect";
+        });
 
-      // **Set submitted to true to prevent sessionStorage removal**
-      submitted = true;
+        // Email validation
+        const emailInput = document.getElementById("email");
+        const confirmEmailInput = document.getElementById("confirmEmail");
+        const emailIcon = document.getElementById("emailIcon");
+        const emailMatchIcon = document.getElementById("emailMatchIcon");
 
-      // Save data in sessionStorage so payment.html can read it
-      const userData = {
-        course: scourse,
-        salutation,
-        firstName,
-        middleName,
-        lastName,
-        phone: phoneVal,
-        email: emailVal,
-        postalCode,
-        houseNumber,
-        address,
-        city
-      };
-      sessionStorage.setItem("userDetails", JSON.stringify(userData));
+        function isValidEmail(email) {
+            const domainRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+            return domainRegex.test(email);
+        }
 
-      // redirect to payment
-      window.location.href = "payment.html";
-    });
-  </script>
+        emailInput.addEventListener("input", () => {
+            emailIcon.textContent = isValidEmail(emailInput.value) ? "✔" : "✖";
+            emailIcon.className = isValidEmail(emailInput.value) ? "validity-icon correct" : "validity-icon incorrect";
+        });
+
+        confirmEmailInput.addEventListener("input", () => {
+            emailMatchIcon.textContent = emailInput.value === confirmEmailInput.value ? "✔" : "✖";
+            emailMatchIcon.className = emailInput.value === confirmEmailInput.value ? "validity-icon correct" : "validity-icon incorrect";
+        });
+
+        // IBAN validation
+        const ibanInput = document.getElementById("iban-number");
+        const ibanIcon = document.getElementById("ibanIcon");
+
+        function isValidIBAN(iban) {
+            const ibanRegex = /^NL\d{2}[A-Z]{4}\d{10}$/;
+            return ibanRegex.test(iban.replace(/\s+/g, ""));
+        }
+
+        ibanInput.addEventListener("input", () => {
+            let formattedIBAN = ibanInput.value.toUpperCase().replace(/[^A-Z0-9]/g, "").replace(/(.{4})/g, "$1 ").trim();
+            ibanInput.value = formattedIBAN;
+            ibanIcon.textContent = isValidIBAN(formattedIBAN) ? "✔" : "✖";
+            ibanIcon.className = isValidIBAN(formattedIBAN) ? "validity-icon correct" : "validity-icon incorrect";
+        });
+
+        // Form submission
+        document.getElementById("purchaseForm").addEventListener("submit", async function (e) {
+            e.preventDefault();
+
+            const formData = {
+                course: document.getElementById("selectedCourse").value,
+                salutation: document.getElementById("salutation").value,
+                firstName: document.getElementById("firstName").value,
+                middleName: document.getElementById("MiddleName").value,
+                lastName: document.getElementById("lastName").value,
+                email: emailInput.value,
+                phone: iti.getNumber(),
+                postalCode: document.getElementById("postalCode").value,
+                houseNumber: document.getElementById("houseNumber").value,
+                address: document.getElementById("address").value,
+                city: citySelect.value,
+                paymentTerms: document.getElementById("paymentTerms").value,
+                iban: ibanInput.value
+            };
+
+            if (!iti.isValidNumber()) {
+                alert("Please enter a valid phone number.");
+                return;
+            }
+
+            if (!isValidEmail(emailInput.value)) {
+                alert("Please enter a valid email address.");
+                return;
+            }
+
+            if (emailInput.value !== confirmEmailInput.value) {
+                alert("Email and confirm email do not match.");
+                return;
+            }
+
+            if (!isValidIBAN(ibanInput.value)) {
+                alert("Please enter a valid IBAN.");
+                return;
+            }
+
+
+            sessionStorage.setItem("registrationData", JSON.stringify(formData));
+            try {
+                const response = await fetch("http://127.0.0.1:8080/submit-form", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(formData)
+                    });
+
+                    if (response.ok) {
+                        try {
+                            const result = await response.json();
+                            alert(result.message);
+                        } catch (parseError) {
+                            console.error("Error parsing JSON:", parseError);
+                            alert("Server returned an invalid response.");
+                        }
+                    } else {
+                        const error = await response.text();
+                        console.error("Server error:", error);
+                        alert(`Error: ${error}`);
+                    }
+                } catch (err) {
+                    console.error("Error submitting form:", err);
+                    alert("An error occurred while submitting the form. Please try again.");
+                }
+            });
+    </script>
 </body>
 </html>
